@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 
 import { PlusIcon } from '@heroicons/react/outline'
 
-import { TableService } from '../../components/Service/table/TableService'
+import { TableService } from '../../components/Service/serviceTable/TableService'
+import { serviceClearData, serviceSetData } from '../../actions/service'
+import { useDispatch } from 'react-redux'
+import { fetchSinToken } from '../../helpers/fetch'
+
+export async function getServerSideProps() {
+	// TODO: Verify if this service exist
+
+	const resp = await fetchSinToken('service');
+	const initialState = await resp.json();
+
+	return {
+		props: { initialState }
+	}
+
+}
+
 
 const Navigation = () => {
 	return (
@@ -25,7 +41,16 @@ const Navigation = () => {
 	)
 }
 
-const Service = () => {
+const Service = ({ initialState }) => {
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(serviceSetData(initialState))
+		return () => {
+			dispatch(serviceClearData())
+		}
+	}, [dispatch, initialState])
+
 	return (
 		<>
 			<Navigation />

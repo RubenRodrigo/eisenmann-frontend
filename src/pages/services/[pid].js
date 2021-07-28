@@ -1,19 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
 
-import { InfoService } from '../../components/Service/service/InfoService'
-import { TableInfoService } from '../../components/Service/service/TableInfoService'
-import { PencilAltIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon, PencilAltIcon } from '@heroicons/react/outline'
 
-const Navigation = ({ pid }) => {
+import { InfoService } from '../../components/Service/serviceDetail/InfoService'
+import { TableServiceProducts } from '../../components/Service/serviceDetail/TableServiceProducts'
+import { fetchSinToken } from '../../helpers/fetch'
+import { useDispatch, useSelector } from 'react-redux'
+import { serviceClearActive, serviceSetActive, serviceStartDelete } from '../../actions/service'
+
+export async function getServerSideProps(context) {
+	// TODO: Verify if this service exist
+	const { pid } = context.params
+
+	const resp = await fetchSinToken(`service/${pid}`);
+	const initialState = await resp.json();
+	return {
+		props: { initialState }
+	}
+}
+
+const Navigation = ({ pid, router }) => {
 	return (
 		<div className="flex justify-between">
 			<div>
-				<h1 className="text-3xl	font-semibold">Servicio {pid}</h1>
+				<h1 className="text-3xl	font-semibold mb-4">Servicio {pid}</h1>
+				<button
+					onClick={() => router.back()}
+					className="border rounded-lg block border-blue-800 hover:bg-gray-100 transition duration-300 px-3 py-2"
+				>
+					<div className="flex text-blue-800">
+						<ArrowLeftIcon className="h-5 w-5 self-center" />
+						<span className="pl-2 font-semibold">Cancelar</span>
+					</div>
+				</button>
 			</div>
 			<div>
-				<Link href="/services/new">
+				<Link href={`/services/edit/${pid}`}>
 					<a className="bg-blue-800 px-3 py-2 rounded-lg block hover:bg-blue-900 transition duration-300">
 						<div className="flex text-white ">
 							<PencilAltIcon className="h-5 w-5 self-center" />
@@ -26,16 +50,44 @@ const Navigation = ({ pid }) => {
 	)
 }
 
-const Service = () => {
+const Service = ({ initialState }) => {
 	const router = useRouter()
 	const { pid } = router.query
+
+	const dispatch = useDispatch()
+	const { loading } = useSelector(state => state.serviceActive)
+
+	useEffect(() => {
+		dispatch(serviceSetActive(initialState))
+		return () => {
+			dispatch(serviceClearActive())
+		}
+	}, [dispatch, initialState])
+
+	const handleDelete = () => {
+		dispatch(serviceStartDelete(pid, router));
+	}
+
+	const handleReport = () => {
+		console.log('Report');
+	}
+
 	return (
 		<>
-			<Navigation pid={pid} />
-			<InfoService />
-			<TableInfoService />
+			<Navigation pid={pid} router={router} />
+			{
+				(!loading) &&
+				(
+					<>
+						<InfoService handleDelete={handleDelete} handleReport={handleReport} />
+						<TableServiceProducts />
+					</>
+				)
+			}
 		</>
 	)
 }
+
+
 
 export default Service

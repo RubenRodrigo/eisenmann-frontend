@@ -1,9 +1,12 @@
 import { combineReducers } from "redux";
-import { serviceReducer } from "./serviceReducer";
+import { serviceActive, serviceCreated, serviceDeleted, serviceList } from "./serviceReducer";
 
 // COMBINED REDUCERS
 const reducers = {
-	service: serviceReducer,
+	serviceList: serviceList,
+	serviceActive: serviceActive,
+	serviceCreated: serviceCreated,
+	serviceDeleted: serviceDeleted,
 }
 
 export default combineReducers(reducers)

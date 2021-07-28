@@ -1,55 +1,56 @@
 import { ArrowLeftIcon } from '@heroicons/react/outline'
-import Link from 'next/link'
+import { useRouter } from 'next/dist/client/router'
 import React from 'react'
+import { ProductForm } from '../../components/Product/productForm/ProductForm'
+
+const Navigation = ({ router }) => {
+
+	return (
+		<div className="flex justify-between">
+			<div>
+				<h1 className="text-3xl	font-semibold">Añadir un nuevo Producto</h1>
+			</div>
+			<div>
+				<button
+					onClick={() => router.push('/products')}
+					className="border rounded-lg block border-blue-800 hover:bg-gray-100 transition duration-300 px-3 py-2"
+				>
+					<div className="flex text-blue-800  ">
+						<ArrowLeftIcon className="h-5 w-5 self-center" />
+						<span className="pl-2 font-semibold">Cancelar</span>
+					</div>
+				</button>
+			</div>
+		</div>
+	)
+}
 
 const NewProduct = () => {
+
+	const router = useRouter()
+
+	const initialValues = {
+		name: 'Soldadura 6011',
+		description: 'Se usa para soldaduras libianas',
+		stock: '15',
+		unit: 'KG',
+		unit_price: '20',
+		type: 'Soldadura',
+	}
+
+	const handleSubmitForm = (data) => {
+		console.log(data);
+		data.id = Date.now();
+		// dispatch(serviceAddNew(data));
+		router.push('/products')
+	}
+
 	return (
 		<>
-			{/* TODO: Create a new Component for this nav */}
-			<div>
-				<div className="flex justify-between">
-					<div>
-						<h1 className="text-3xl	font-semibold">Añadir un Producto</h1>
-					</div>
-					<div>
-						<Link href="/products/">
-							<a className="hover:bg-gray-200 hover:border-blue-900 border border-blue-700 px-3 py-2 rounded-lg block transition duration-300">
-								<div className="flex text-blue-800">
-									<ArrowLeftIcon className="h-5 w-5 self-center" />
-									<span className="pl-2 font-semibold">Cancelar</span>
-								</div>
-							</a>
-						</Link>
-					</div>
-				</div>
-			</div>
-			<div
-				className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 mt-5"
-			>
-				<div>
-					<div
-						className='flex p-2 rounded-lg border-gray-400 border hover:border-gray-800'
-					>
-						<input
-							className="focus:outline-none ml-3 placeholder-gray-600 text-lg w-full"
-							type="text"
-							placeholder="Producto"
-						/>
-					</div>
-				</div>
-				<br />
-				<div>
-					<div
-						className='flex p-2 rounded-lg border-gray-400 border hover:border-gray-800'
-					>
-						<input
-							className="focus:outline-none ml-3 placeholder-gray-600 text-lg w-full"
-							type="text"
-							placeholder="Stock"
-						/>
-					</div>
-				</div>
-			</div>
+			<Navigation router={router} />
+			<div className="mt-4 border border-gray-300 rounded-lg py-4 px-6">
+				<ProductForm initialValues={initialValues} handleSubmitForm={handleSubmitForm} />
+			</div >
 		</>
 	)
 }
