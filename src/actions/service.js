@@ -1,5 +1,6 @@
 import { fetchSinToken } from "../helpers/fetch";
 import { types } from "../types/types";
+import { productStartLoadingData } from "./product";
 
 /* Async functions */
 
@@ -104,9 +105,12 @@ export const serviceStartUpdateProduct = (product) => {
 export const serviceStartDeleteProduct = (id) => {
 	return async (dispatch) => {
 		try {
-			await fetchSinToken(`service/service_product/${id}`, '', 'DELETE');
+			const resp = await fetchSinToken(`service/service_product/${id}`, '', 'DELETE');
 
-			dispatch(serviceDeleteProduct(id))
+			if (resp.ok) {
+				dispatch(serviceDeleteProduct(id))
+				dispatch(productStartLoadingData())
+			}
 		} catch (error) {
 			console.log(error);
 		}

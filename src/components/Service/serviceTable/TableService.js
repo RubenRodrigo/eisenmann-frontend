@@ -6,6 +6,7 @@ import { TableRow } from './TableRow'
 export const TableService = () => {
 
 	const { services } = useSelector(state => state.serviceList)
+
 	return (
 		<div className="mt-4 border border-gray-300 rounded-lg py-3">
 			<TableNav />

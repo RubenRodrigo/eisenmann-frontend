@@ -9,16 +9,61 @@ import { TableServiceProducts } from '../../components/Service/serviceDetail/Tab
 import { fetchSinToken } from '../../helpers/fetch'
 import { useDispatch, useSelector } from 'react-redux'
 import { serviceClearActive, serviceSetActive, serviceStartDelete } from '../../actions/service'
+import { productClearData, productSetData } from '../../actions/product'
 
 export async function getServerSideProps(context) {
-	// TODO: Verify if this service exist
+	// TODO: Verify if this product exist
 	const { pid } = context.params
 
 	const resp = await fetchSinToken(`service/${pid}`);
 	const initialState = await resp.json();
+
+	const product = await fetchSinToken('product');
+	const products = await product.json();
+
 	return {
-		props: { initialState }
+		props: { initialState, products }
 	}
+}
+
+const Service = ({ initialState, products }) => {
+	const router = useRouter()
+	const { pid } = router.query
+
+	const dispatch = useDispatch()
+	const { loading } = useSelector(state => state.serviceActive)
+
+	useEffect(() => {
+		dispatch(serviceSetActive(initialState))
+		dispatch(productSetData(products))
+		return () => {
+			dispatch(serviceClearActive())
+			dispatch(productClearData())
+		}
+	}, [dispatch, initialState, products])
+
+	const handleDelete = () => {
+		dispatch(serviceStartDelete(pid, router));
+	}
+
+	const handleReport = () => {
+		console.log('Report');
+	}
+
+	return (
+		<>
+			<Navigation pid={pid} router={router} />
+			{
+				(!loading) &&
+				(
+					<>
+						<InfoService handleDelete={handleDelete} handleReport={handleReport} />
+						<TableServiceProducts />
+					</>
+				)
+			}
+		</>
+	)
 }
 
 const Navigation = ({ pid, router }) => {
@@ -49,45 +94,5 @@ const Navigation = ({ pid, router }) => {
 		</div>
 	)
 }
-
-const Service = ({ initialState }) => {
-	const router = useRouter()
-	const { pid } = router.query
-
-	const dispatch = useDispatch()
-	const { loading } = useSelector(state => state.serviceActive)
-
-	useEffect(() => {
-		dispatch(serviceSetActive(initialState))
-		return () => {
-			dispatch(serviceClearActive())
-		}
-	}, [dispatch, initialState])
-
-	const handleDelete = () => {
-		dispatch(serviceStartDelete(pid, router));
-	}
-
-	const handleReport = () => {
-		console.log('Report');
-	}
-
-	return (
-		<>
-			<Navigation pid={pid} router={router} />
-			{
-				(!loading) &&
-				(
-					<>
-						<InfoService handleDelete={handleDelete} handleReport={handleReport} />
-						<TableServiceProducts />
-					</>
-				)
-			}
-		</>
-	)
-}
-
-
 
 export default Service

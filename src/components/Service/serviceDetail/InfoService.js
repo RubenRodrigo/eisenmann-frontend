@@ -59,11 +59,11 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 								(state)
 									?
 									<p className="ml-2 bg-red-500 text-white px-3 rounded-full">
-										Activo
+										Completado
 									</p>
 									:
 									<p className="ml-2 bg-green-500 text-white px-3 rounded-full">
-										Inactivo
+										En progreso
 									</p>
 							}
 						</div>

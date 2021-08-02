@@ -1,7 +1,70 @@
-import { ArrowLeftIcon } from '@heroicons/react/outline'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
-import React from 'react'
+import { useDispatch } from 'react-redux'
+
+import { ArrowLeftIcon } from '@heroicons/react/outline'
+
+import { productStartCreate } from '../../actions/product'
 import { ProductForm } from '../../components/Product/productForm/ProductForm'
+import { fetchSinToken } from '../../helpers/fetch'
+import { typeClearData, typeSetData } from '../../actions/type'
+import { unitClearData, unitSetData } from '../../actions/unit'
+
+export async function getServerSideProps() {
+
+	const type = await fetchSinToken('product/type');
+	const unit = await fetchSinToken('product/unit');
+
+	const types = await type.json();
+	const units = await unit.json();
+
+	return {
+		props: { types, units }
+	}
+
+}
+
+const NewProduct = ({ types, units }) => {
+
+	const dispatch = useDispatch()
+	const router = useRouter()
+
+	useEffect(() => {
+		dispatch(typeSetData(types))
+		dispatch(unitSetData(units))
+		return () => {
+			dispatch(typeClearData())
+			dispatch(unitClearData())
+		}
+	}, [dispatch, types, units])
+
+	const initialValues = {
+		type: 1,
+		unit: 1,
+		code: '16156',
+		name: 'Soldadura 6011',
+		description: 'Se usa para soldaduras libianas de metal',
+		unit_price: '20',
+		stock: '15',
+	}
+
+	const handleSubmitForm = (data) => {
+		console.log(data);
+		dispatch(productStartCreate(data, router));
+	}
+
+	return (
+		<>
+			<Navigation router={router} />
+			<div className="mt-4 border border-gray-300 rounded-lg py-4 px-6">
+				<ProductForm
+					initialValues={initialValues}
+					handleSubmitForm={handleSubmitForm}
+				/>
+			</div>
+		</>
+	)
+}
 
 const Navigation = ({ router }) => {
 
@@ -22,36 +85,6 @@ const Navigation = ({ router }) => {
 				</button>
 			</div>
 		</div>
-	)
-}
-
-const NewProduct = () => {
-
-	const router = useRouter()
-
-	const initialValues = {
-		name: 'Soldadura 6011',
-		description: 'Se usa para soldaduras libianas',
-		stock: '15',
-		unit: 'KG',
-		unit_price: '20',
-		type: 'Soldadura',
-	}
-
-	const handleSubmitForm = (data) => {
-		console.log(data);
-		data.id = Date.now();
-		// dispatch(serviceAddNew(data));
-		router.push('/products')
-	}
-
-	return (
-		<>
-			<Navigation router={router} />
-			<div className="mt-4 border border-gray-300 rounded-lg py-4 px-6">
-				<ProductForm initialValues={initialValues} handleSubmitForm={handleSubmitForm} />
-			</div >
-		</>
 	)
 }
 

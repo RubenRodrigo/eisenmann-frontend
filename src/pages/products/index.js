@@ -1,7 +1,44 @@
-import { PlusIcon } from '@heroicons/react/outline'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
-import React from 'react'
+import { useDispatch } from 'react-redux';
+import { PlusIcon } from '@heroicons/react/outline'
+
+import { productClearData, productSetData } from '../../actions/product';
 import { TableProduct } from '../../components/Product/productTable/TableProduct'
+import { fetchSinToken } from '../../helpers/fetch';
+
+export async function getServerSideProps() {
+	// TODO: Verify if this service exist
+
+	const resp = await fetchSinToken('product');
+	const initialState = await resp.json();
+
+	return {
+		props: { initialState }
+	}
+
+}
+
+const Products = ({ initialState }) => {
+
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(productSetData(initialState))
+		return () => {
+			dispatch(productClearData())
+		}
+	}, [dispatch, initialState])
+
+	return (
+		<>
+			<Navigation />
+			<div>
+				<TableProduct />
+			</div>
+		</>
+	)
+}
 
 const Navigation = () => {
 	return (
@@ -20,17 +57,6 @@ const Navigation = () => {
 				</Link>
 			</div>
 		</div>
-	)
-}
-
-const Products = () => {
-	return (
-		<>
-			<Navigation />
-			<div>
-				<TableProduct />
-			</div>
-		</>
 	)
 }
 

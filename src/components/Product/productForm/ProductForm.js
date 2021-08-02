@@ -1,16 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { AnnotationIcon, BeakerIcon, BriefcaseIcon, CalculatorIcon, CalendarIcon, CashIcon, KeyIcon, UsersIcon } from '@heroicons/react/outline'
+import { AnnotationIcon, CalculatorIcon, CashIcon } from '@heroicons/react/outline'
 
 import { TextField } from '../../ui/TextField'
 import { TextArea } from '../../ui/TextArea'
+import { Select } from '../../ui/Select'
+import { useSelector } from 'react-redux'
 
 export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 
-	const { register, handleSubmit, formState: { errors } } = useForm({
-		defaultValues: initialValues
-	});
+	const { types } = useSelector(state => state.typeList)
+	const { units } = useSelector(state => state.unitList)
+	const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+
+	useEffect(() => {
+		setValue('name', initialValues.name, { shouldValidate: true })
+		setValue('type', initialValues.type, { shouldValidate: true })
+		setValue('stock', initialValues.stock, { shouldValidate: true })
+		setValue('unit_price', initialValues.unit_price, { shouldValidate: true })
+		setValue('unit', initialValues.unit, { shouldValidate: true })
+		setValue('code', initialValues.code, { shouldValidate: true })
+		setValue('description', initialValues.description, { shouldValidate: true })
+	}, [setValue, initialValues])
 
 	return (
 		<form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -26,23 +38,30 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.name}
 					>
-						<AnnotationIcon className="h-5 self-center" />
+						<AnnotationIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.name && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">
 					<label className="mb-2 block text-md text-gray-600">Tipo de producto</label>
-					<TextField
-						autoComplete="off"
-						type="text"
-						placeholder="Tipo"
+					<Select
 						name="type"
 						register={register}
 						required
 						error={errors.type}
 					>
-						<BeakerIcon className="h-5 self-center" />
-					</TextField>
+						{
+							types.map((type, index) => (
+
+								<option
+									key={type.id}
+									value={type.id}
+								>
+									{type.name}
+								</option>
+							))
+						}
+					</Select>
 					{errors.type && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">
@@ -56,7 +75,7 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.stock}
 					>
-						<CalculatorIcon className="h-5 self-center" />
+						<CalculatorIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.stock && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
@@ -71,24 +90,44 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.unit_price}
 					>
-						<CashIcon className="h-5 self-center" />
+						<CashIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.unit_price && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">
 					<label className="mb-2 block text-md text-gray-600">Unidad de medida</label>
-					<TextField
-						autoComplete="off"
-						type="text"
-						placeholder="Unidad"
+					<Select
 						name="unit"
 						register={register}
 						required
 						error={errors.unit}
-					/>
+					>
+						{
+							units.map((unit, index) => (
+
+								<option
+									key={unit.id}
+									value={unit.id}
+								>
+									{unit.name}
+								</option>
+							))
+						}
+					</Select>
 					{errors.unit && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">
+					<label className="mb-2 block text-md text-gray-600">Codigo</label>
+					<TextField
+						autoComplete="off"
+						type="text"
+						placeholder="Codigo"
+						name="code"
+						register={register}
+						required
+						error={errors.code}
+					/>
+					{errors.code && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-2">
 					<label className="mb-2 block text-md text-gray-600">Descripcion</label>

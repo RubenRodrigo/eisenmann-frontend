@@ -1,6 +1,5 @@
 import { types } from "../types/types"
 
-
 export const serviceList = (state = { services: [] }, action) => {
 
 	switch (action.type) {

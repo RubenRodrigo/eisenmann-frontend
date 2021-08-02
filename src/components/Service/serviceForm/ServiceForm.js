@@ -1,16 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { BriefcaseIcon, CalendarIcon, CashIcon, KeyIcon, UsersIcon } from '@heroicons/react/outline'
+import moment from 'moment'
 
 import { TextField } from '../../ui/TextField'
 import { TextArea } from '../../ui/TextArea'
 
 export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 
-	const { register, handleSubmit, formState: { errors } } = useForm({
-		defaultValues: initialValues
-	});
+	const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+
+	useEffect(() => {
+		setValue('name', initialValues.name, { shouldValidate: true })
+		setValue('client', initialValues.client, { shouldValidate: true })
+		setValue('code', initialValues.code, { shouldValidate: true })
+		setValue('estimated_price', initialValues.estimated_price, { shouldValidate: true })
+		setValue('init_date', initialValues.init_date, { shouldValidate: true })
+		setValue('end_date', initialValues.end_date, { shouldValidate: true })
+		setValue('observations', initialValues.observations, { shouldValidate: true })
+		setValue('state', initialValues.state, { shouldValidate: true })
+	}, [setValue, initialValues])
+
+	const handleSetInitDate = () => {
+		setValue('init_date', moment().format('YYYY-MM-DD'), { shouldValidate: true })
+	}
+
+	const handleSetEndDate = () => {
+		setValue('end_date', moment().format('YYYY-MM-DD'), { shouldValidate: true })
+	}
 
 	return (
 		<form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -25,7 +43,7 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.name}
 					>
-						<BriefcaseIcon className="h-5 self-center" />
+						<BriefcaseIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.name && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
@@ -39,7 +57,7 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.code}
 					>
-						<KeyIcon className="h-5 self-center" />
+						<KeyIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.code && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
@@ -53,7 +71,7 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.client}
 					>
-						<UsersIcon className="h-5 self-center" />
+						<UsersIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.client && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
@@ -67,7 +85,7 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 						required
 						error={errors.estimated_price}
 					>
-						<CashIcon className="h-5 self-center" />
+						<CashIcon className="h-5 self-center pl-2" />
 					</TextField>
 					{errors.estimated_price && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
@@ -81,12 +99,16 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 							required
 							error={errors.init_date}
 						>
-							<CalendarIcon className="h-5 self-center" />
+							<CalendarIcon className="h-5 self-center pl-2" />
 						</TextField>
 						{errors.init_date && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 					</div>
 					<div className="flex-initial self-end">
-						<button className="p-3 text-blue-700 rounded hover:bg-blue-50 hover:underline">
+						<button
+							type="button"
+							onClick={handleSetInitDate}
+							className="p-3 text-blue-700 rounded hover:bg-blue-50 hover:underline"
+						>
 							Fecha actual
 						</button>
 					</div>
@@ -104,12 +126,16 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 							required
 							error={errors.end_date}
 						>
-							<CalendarIcon className="h-5 self-center" />
+							<CalendarIcon className="h-5 self-center pl-2" />
 						</TextField>
 						{errors.end_date && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 					</div>
 					<div className="flex-initial self-end">
-						<button className="p-3 text-blue-700 rounded hover:bg-blue-50 hover:underline">
+						<button
+							type="button"
+							onClick={handleSetEndDate}
+							className="p-3 text-blue-700 rounded hover:bg-blue-50 hover:underline"
+						>
 							Fecha actual
 						</button>
 					</div>

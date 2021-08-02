@@ -1,29 +1,83 @@
-import React from 'react'
-import Link from 'next/link'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
 
-import { ArrowLeftIcon, PencilAltIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon } from '@heroicons/react/outline'
 
-import { InfoService } from '../../components/Service/serviceDetail/InfoService'
 import { ProductForm } from '../../components/Product/productForm/ProductForm'
+import { fetchSinToken } from '../../helpers/fetch'
+import { useDispatch, useSelector } from 'react-redux'
+import { productClearActive, productSetActive, productStartUpdate } from '../../actions/product'
+import { typeClearData, typeSetData } from '../../actions/type'
+import { unitClearData, unitSetData } from '../../actions/unit'
 
 export async function getServerSideProps(context) {
-	// TODO: Verify if this service exist
 	const { pid } = context.params
 
-	const initialState = {
-		id: pid,
-		name: 'Soldadura 7018',
-		description: 'Se usa para soldaduras libianas',
-		stock: '15',
-		unit: 'KG',
-		unit_price: '20',
-		type: 'Soldadura',
-	}
+	const resp = await fetchSinToken(`product/${pid}`);
+	const type = await fetchSinToken('product/type');
+	const unit = await fetchSinToken('product/unit');
+
+	const initialState = await resp.json();
+	const units = await unit.json();
+	const types = await type.json();
 
 	return {
-		props: { initialState }
+		props: { initialState, types, units }
 	}
+}
+
+const Product = ({ initialState, types, units }) => {
+
+	const dispatch = useDispatch()
+	const router = useRouter()
+	const { pid } = router.query
+
+	useEffect(() => {
+		dispatch(productSetActive(initialState))
+
+		dispatch(typeSetData(types))
+		dispatch(unitSetData(units))
+
+		return () => {
+			dispatch(productClearActive())
+
+			dispatch(typeClearData())
+			dispatch(unitClearData())
+		}
+	}, [dispatch, initialState, types, units])
+
+	const { product, loading } = useSelector(state => state.productActive)
+
+	const initialValues = {
+		id: product.id,
+		type: product.type,
+		unit: product.unit,
+		code: product.code,
+		name: product.name,
+		description: product.description,
+		unit_price: product.unit_price,
+		stock: product.stock,
+	}
+
+	const handleSubmitForm = (data) => {
+		data.id = product.id
+		dispatch(productStartUpdate(data, router))
+	}
+
+	return (
+		<>
+			<Navigation pid={pid} router={router} />
+			<div className="mt-4 border border-gray-300 rounded-lg py-4 px-6">
+				{
+					(!loading) &&
+					<ProductForm
+						initialValues={initialValues}
+						handleSubmitForm={handleSubmitForm}
+					/>
+				}
+			</div >
+		</>
+	)
 }
 
 const Navigation = ({ pid, router }) => {
@@ -46,30 +100,5 @@ const Navigation = ({ pid, router }) => {
 		</div>
 	)
 }
-const Product = ({ initialState }) => {
-
-	const router = useRouter()
-	const { pid } = router.query
-	// const dispatch = useDispatch()
-
-	// dispatch(serviceSetActive(initialState))
-	const handleSubmitForm = (data) => {
-		console.log(data);
-		data.id = Date.now();
-		// dispatch(serviceAddNew(data));
-		router.push('/products')
-	}
-
-	return (
-		<>
-			<Navigation pid={pid} router={router} />
-			<div className="mt-4 border border-gray-300 rounded-lg py-4 px-6">
-				<ProductForm initialValues={initialState} handleSubmitForm={handleSubmitForm} />
-			</div >
-		</>
-	)
-}
-
-
 
 export default Product

@@ -3,6 +3,7 @@ import { useRouter } from 'next/dist/client/router'
 import { useDispatch } from 'react-redux'
 
 import { ArrowLeftIcon } from '@heroicons/react/outline'
+import moment from 'moment'
 
 import { ServiceForm } from '../../components/Service/serviceForm/ServiceForm'
 import { serviceStartAddNew } from '../../actions/service'
@@ -36,17 +37,18 @@ const NewService = () => {
 	const router = useRouter()
 
 	const initialValues = {
-		name: 'a',
+		name: 'Nombre',
 		client: '1',
-		code: '516',
-		estimated_price: '500',
-		init_date: '2021-07-26',
-		end_date: '2021-07-26',
-		observations: '16156',
+		code: '516156',
+		estimated_price: '152',
+		init_date: moment().format('YYYY-MM-DD'),
+		end_date: moment().format('YYYY-MM-DD'),
+		observations: 'ff',
 		state: false,
 	}
 
 	const handleSubmitForm = (data) => {
+		console.log(data)
 		dispatch(serviceStartAddNew(data, router));
 	}
 

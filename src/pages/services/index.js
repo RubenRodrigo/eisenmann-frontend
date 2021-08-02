@@ -20,6 +20,25 @@ export async function getServerSideProps() {
 
 }
 
+const Service = ({ initialState }) => {
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(serviceSetData(initialState))
+		return () => {
+			dispatch(serviceClearData())
+		}
+	}, [dispatch, initialState])
+
+	return (
+		<>
+			<Navigation />
+			<div>
+				<TableService />
+			</div>
+		</>
+	)
+}
 
 const Navigation = () => {
 	return (
@@ -38,26 +57,6 @@ const Navigation = () => {
 				</Link>
 			</div>
 		</div>
-	)
-}
-
-const Service = ({ initialState }) => {
-	const dispatch = useDispatch()
-
-	useEffect(() => {
-		dispatch(serviceSetData(initialState))
-		return () => {
-			dispatch(serviceClearData())
-		}
-	}, [dispatch, initialState])
-
-	return (
-		<>
-			<Navigation />
-			<div>
-				<TableService />
-			</div>
-		</>
 	)
 }
 

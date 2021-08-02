@@ -4,6 +4,7 @@ import { PencilAltIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { serviceStartAddProduct, serviceStartDeleteProduct, serviceStartUpdateProduct } from '../../../actions/service'
 import { ServiceProductModal } from '../serviceForm/ServiceProductModal'
+import { productStartLoadingData } from '../../../actions/product'
 
 export const TableServiceProducts = () => {
 
@@ -16,7 +17,7 @@ export const TableServiceProducts = () => {
 	} = { ...service }
 
 	const initialState = {
-		product: 2,
+		product: 0,
 		description: 'Pintura roja para la puerta',
 		quantity: '15',
 	}
@@ -46,6 +47,8 @@ export const TableServiceProducts = () => {
 		} else {
 			dispatch(serviceStartAddProduct(data))
 		}
+		setOpen(false)
+		dispatch(productStartLoadingData())
 	}
 
 

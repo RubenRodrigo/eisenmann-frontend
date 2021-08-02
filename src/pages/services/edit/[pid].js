@@ -19,28 +19,6 @@ export async function getServerSideProps(context) {
 	}
 }
 
-const Navigation = ({ router }) => {
-
-	return (
-		<div className="flex justify-between">
-			<div>
-				<h1 className="text-3xl	font-semibold">Editar el Servicio</h1>
-			</div>
-			<div>
-				<button
-					onClick={() => router.back()}
-					className="border rounded-lg block border-blue-800 hover:bg-gray-100 transition duration-300 px-3 py-2"
-				>
-					<div className="flex text-blue-800  ">
-						<ArrowLeftIcon className="h-5 w-5 self-center" />
-						<span className="pl-2 font-semibold">Cancelar</span>
-					</div>
-				</button>
-			</div>
-		</div>
-	)
-}
-
 const ServiceEdit = ({ initialState }) => {
 
 	const dispatch = useDispatch()
@@ -83,6 +61,28 @@ const ServiceEdit = ({ initialState }) => {
 				}
 			</div >
 		</>
+	)
+}
+
+const Navigation = ({ router }) => {
+
+	return (
+		<div className="flex justify-between">
+			<div>
+				<h1 className="text-3xl	font-semibold">Editar el Servicio</h1>
+			</div>
+			<div>
+				<button
+					onClick={() => router.back()}
+					className="border rounded-lg block border-blue-800 hover:bg-gray-100 transition duration-300 px-3 py-2"
+				>
+					<div className="flex text-blue-800  ">
+						<ArrowLeftIcon className="h-5 w-5 self-center" />
+						<span className="pl-2 font-semibold">Cancelar</span>
+					</div>
+				</button>
+			</div>
+		</div>
 	)
 }
 

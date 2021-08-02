@@ -49,11 +49,11 @@ export const TableRow = ({ currentService }) => {
 					(state)
 						?
 						<span className="bg-red-500 text-white px-3 py-1 rounded-full">
-							Activo
+							Completado
 						</span>
 						:
 						<span className="bg-green-500 text-white px-3 py-1 rounded-full">
-							Inactivo
+							En progreso
 						</span>
 				}
 			</td>
