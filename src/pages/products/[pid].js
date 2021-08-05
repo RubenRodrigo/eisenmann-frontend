@@ -3,12 +3,12 @@ import { useRouter } from 'next/dist/client/router'
 
 import { ArrowLeftIcon } from '@heroicons/react/outline'
 
-import { ProductForm } from '../../components/Product/productForm/ProductForm'
 import { fetchSinToken } from '../../helpers/fetch'
 import { useDispatch, useSelector } from 'react-redux'
 import { productClearActive, productSetActive, productStartUpdate } from '../../actions/product'
 import { typeClearData, typeSetData } from '../../actions/type'
 import { unitClearData, unitSetData } from '../../actions/unit'
+import ProductInfo from '../../components/Product/productDetail/ProductInfo'
 
 export async function getServerSideProps(context) {
 	const { pid } = context.params
@@ -46,36 +46,15 @@ const Product = ({ initialState, types, units }) => {
 		}
 	}, [dispatch, initialState, types, units])
 
-	const { product, loading } = useSelector(state => state.productActive)
-
-	const initialValues = {
-		id: product.id,
-		type: product.type,
-		unit: product.unit,
-		code: product.code,
-		name: product.name,
-		description: product.description,
-		unit_price: product.unit_price,
-		stock: product.stock,
-	}
-
-	const handleSubmitForm = (data) => {
-		data.id = product.id
-		dispatch(productStartUpdate(data, router))
-	}
+	const { loading } = useSelector(state => state.productActive)
 
 	return (
 		<>
 			<Navigation pid={pid} router={router} />
-			<div className="mt-4 border border-gray-300 rounded-lg py-4 px-6">
-				{
-					(!loading) &&
-					<ProductForm
-						initialValues={initialValues}
-						handleSubmitForm={handleSubmitForm}
-					/>
-				}
-			</div >
+			{
+				(!loading) &&
+				<ProductInfo />
+			}
 		</>
 	)
 }

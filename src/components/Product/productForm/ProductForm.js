@@ -17,8 +17,6 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 	useEffect(() => {
 		setValue('name', initialValues.name, { shouldValidate: true })
 		setValue('type', initialValues.type, { shouldValidate: true })
-		setValue('stock', initialValues.stock, { shouldValidate: true })
-		setValue('unit_price', initialValues.unit_price, { shouldValidate: true })
 		setValue('unit', initialValues.unit, { shouldValidate: true })
 		setValue('code', initialValues.code, { shouldValidate: true })
 		setValue('description', initialValues.description, { shouldValidate: true })
@@ -43,6 +41,19 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 					{errors.name && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">
+					<label className="mb-2 block text-md text-gray-600">Codigo</label>
+					<TextField
+						autoComplete="off"
+						type="text"
+						placeholder="Codigo"
+						name="code"
+						register={register}
+						required
+						error={errors.code}
+					/>
+					{errors.code && <span className="text-red-500 text-sm">Este campo es requerido</span>}
+				</div>
+				<div className="col-span-1">
 					<label className="mb-2 block text-md text-gray-600">Tipo de producto</label>
 					<Select
 						name="type"
@@ -65,36 +76,6 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 					{errors.type && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">
-					<label className="mb-2 block text-md text-gray-600">Stock</label>
-					<TextField
-						autoComplete="off"
-						type="number"
-						placeholder="Stock"
-						name="stock"
-						register={register}
-						required
-						error={errors.stock}
-					>
-						<CalculatorIcon className="h-5 self-center pl-2" />
-					</TextField>
-					{errors.stock && <span className="text-red-500 text-sm">Este campo es requerido</span>}
-				</div>
-				<div className="col-span-1">
-					<label className="mb-2 block text-md text-gray-600">Precio Unitario</label>
-					<TextField
-						autoComplete="off"
-						type="text"
-						placeholder="Precio"
-						name="unit_price"
-						register={register}
-						required
-						error={errors.unit_price}
-					>
-						<CashIcon className="h-5 self-center pl-2" />
-					</TextField>
-					{errors.unit_price && <span className="text-red-500 text-sm">Este campo es requerido</span>}
-				</div>
-				<div className="col-span-1">
 					<label className="mb-2 block text-md text-gray-600">Unidad de medida</label>
 					<Select
 						name="unit"
@@ -115,19 +96,6 @@ export const ProductForm = ({ handleSubmitForm, initialValues }) => {
 						}
 					</Select>
 					{errors.unit && <span className="text-red-500 text-sm">Este campo es requerido</span>}
-				</div>
-				<div className="col-span-1">
-					<label className="mb-2 block text-md text-gray-600">Codigo</label>
-					<TextField
-						autoComplete="off"
-						type="text"
-						placeholder="Codigo"
-						name="code"
-						register={register}
-						required
-						error={errors.code}
-					/>
-					{errors.code && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-2">
 					<label className="mb-2 block text-md text-gray-600">Descripcion</label>

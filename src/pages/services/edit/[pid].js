@@ -45,6 +45,7 @@ const ServiceEdit = ({ initialState }) => {
 	}
 
 	const handleSubmitForm = (data) => {
+		data.id = service.id
 		dispatch(serviceStartUpdate(data, router));
 	}
 

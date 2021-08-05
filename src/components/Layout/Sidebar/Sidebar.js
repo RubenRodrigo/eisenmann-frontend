@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { CalendarIcon, HomeIcon, ShoppingCartIcon } from '@heroicons/react/outline'
+import { CalendarIcon, HomeIcon, ShoppingCartIcon, TruckIcon, UserGroupIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
-import Image from 'next/image'
 
 export const Sidebar = () => {
 
@@ -10,7 +9,7 @@ export const Sidebar = () => {
 		<>
 			<aside
 				style={{ backgroundColor: '#242424' }}
-				className="h-full pt-20 text-white w-64 fixed z-0"
+				className="h-full pt-20 text-white w-52 fixed z-0"
 			>
 				<div className="py-2  h-full overflow-y-auto">
 					<div className="link-container transition duration-200">
@@ -44,6 +43,30 @@ export const Sidebar = () => {
 									<ShoppingCartIcon className="h-7 w-7" />
 									<h3 className="pl-3">
 										Productos
+									</h3>
+								</div>
+							</a>
+						</Link>
+					</div>
+					<div className="link-container transition duration-200">
+						<Link href="/clients">
+							<a>
+								<div className="flex p-3">
+									<TruckIcon className="h-7 w-7" />
+									<h3 className="pl-3">
+										Clientes
+									</h3>
+								</div>
+							</a>
+						</Link>
+					</div>
+					<div className="link-container transition duration-200">
+						<Link href="/empleados">
+							<a>
+								<div className="flex p-3">
+									<UserGroupIcon className="h-7 w-7" />
+									<h3 className="pl-3">
+										Empleados
 									</h3>
 								</div>
 							</a>

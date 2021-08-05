@@ -19,10 +19,18 @@ export const TableProduct = () => {
 		setFormValues(currentProduct)
 		setOpen(true)
 	}
-	const handleSubmitForm = (data) => {
+
+	const handleSubmitModalForm = (data) => {
 		data.id = formValues.id
 		dispatch(productStartUpdate(data, router))
 		setOpen(false)
+	}
+
+	const handleSubmitRowForm = (data) => {
+		console.log(data);
+		// data.id = formValues.id
+		// dispatch(productStartUpdate(data, router))
+		// setOpen(false)
 	}
 
 	return (
@@ -31,7 +39,7 @@ export const TableProduct = () => {
 				open={open}
 				setOpen={setOpen}
 				initialValues={formValues}
-				handleSubmitForm={handleSubmitForm}
+				handleSubmitForm={handleSubmitModalForm}
 			/>
 			<TableNav />
 			<table className="w-full">
@@ -44,16 +52,13 @@ export const TableProduct = () => {
 							Nombre
 						</th>
 						<th className="text-left p-2">
-							Inventario
-						</th>
-						<th className="text-left p-2">
 							Tipo
 						</th>
 						<th className="text-left p-2">
 							Unidad
 						</th>
 						<th className="text-left p-2">
-							Precio Unitario
+							Stock
 						</th>
 						<th className="text-center p-2">
 							Acciones
@@ -67,6 +72,7 @@ export const TableProduct = () => {
 								key={product.id}
 								currentProduct={product}
 								handleOpenModal={handleOpenModal}
+								handleSubmitRowForm={handleSubmitRowForm}
 							/>
 						))
 					}

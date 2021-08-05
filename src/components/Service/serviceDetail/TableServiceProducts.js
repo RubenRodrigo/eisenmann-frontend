@@ -18,8 +18,9 @@ export const TableServiceProducts = () => {
 
 	const initialState = {
 		product: 0,
+		employee: 2,
 		description: 'Pintura roja para la puerta',
-		quantity: '15',
+		quantity: '2',
 	}
 
 	const [open, setOpen] = useState(false)
@@ -43,6 +44,7 @@ export const TableServiceProducts = () => {
 		data.service = id
 		if (formValues.id) {
 			data.id = formValues.id
+			data.product = formValues.product
 			dispatch(serviceStartUpdateProduct(data))
 		} else {
 			dispatch(serviceStartAddProduct(data))
@@ -85,6 +87,9 @@ export const TableServiceProducts = () => {
 							<th className="text-left p-2 w-1/6">
 								Producto
 							</th>
+							<th className="text-left p-2 w-1/6">
+								Empleado
+							</th>
 							<th className="text-left p-2 w-2/6">
 								Descripcion
 							</th>
@@ -107,13 +112,16 @@ export const TableServiceProducts = () => {
 										{ser_product.product_detail.name}
 									</td>
 									<td className="text-left p-2">
+										{ser_product.employee_detail.name}
+									</td>
+									<td className="text-left p-2">
 										{ser_product.description}
 									</td>
 									<td className="text-left p-2">
 										{ser_product.quantity}
 									</td>
 									<td className="text-left p-2">
-										S/ {ser_product.total}
+										S/ {ser_product.total_cost}
 									</td>
 									<td className="p-2">
 										<div className="flex justify-center p-2">

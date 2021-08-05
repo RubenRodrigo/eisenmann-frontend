@@ -19,17 +19,26 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 
 	useEffect(() => {
 		setValue('product', initialValues.product, { shouldValidate: true })
+		setValue('employee', initialValues.employee, { shouldValidate: true })
 		setValue('description', initialValues.description, { shouldValidate: true })
 		setValue('quantity', initialValues.quantity, { shouldValidate: true })
 	}, [setValue, initialValues])
 
 	useEffect(() => {
 		if (watchProduct && watchQuantity) {
-			const unitPrice = products.find(e => e.id == watchProduct).unit_price
-			setPrice(unitPrice)
+			if (watchProduct > 0) {
+				const product = products.find(e => e.id == watchProduct)
 
-			const totalPrice = parseFloat(unitPrice) * parseFloat(watchQuantity)
-			setTotal(totalPrice)
+				const unitPrice = product.current_price ? product.current_price : 0
+
+				setPrice(unitPrice)
+
+				const totalPrice = parseFloat(unitPrice) * parseFloat(watchQuantity)
+				setTotal(totalPrice)
+			} else {
+				setPrice(0)
+				setTotal(0)
+			}
 		}
 	}, [products, watchProduct, watchQuantity])
 
@@ -51,6 +60,7 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 									name="product"
 									register={register}
 									required
+									disabled={initialValues.id ? true : false}
 									error={errors.product}
 								>
 									<option
@@ -70,6 +80,21 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 									}
 								</Select>
 								{errors.product && <span className="text-red-500 text-sm">Este campo es requerido</span>}
+							</div>
+							<div className="mb-5">
+								<label className="mb-2 block text-md text-gray-600">Empleado</label>
+								<TextField
+									type="text"
+									placeholder="Empleado"
+									name="employee"
+									register={register}
+									required
+									error={errors.employee}
+								>
+									<AnnotationIcon className="h-5 self-center pl-2" />
+								</TextField>
+
+								{errors.employee && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 							</div>
 							<div className="mb-5">
 								<label className="mb-2 block text-md text-gray-600">Descripcion</label>
@@ -95,6 +120,7 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 									register={register}
 									required
 									error={errors.quantity}
+								// disabled={initialValues.id ? true : false}
 								>
 									<CalculatorIcon className="h-5 self-center pl-2" />
 								</TextField>
