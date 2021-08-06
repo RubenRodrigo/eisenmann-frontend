@@ -9,6 +9,7 @@ import { productClearActive, productSetActive, productStartUpdate } from '../../
 import { typeClearData, typeSetData } from '../../actions/type'
 import { unitClearData, unitSetData } from '../../actions/unit'
 import ProductInfo from '../../components/Product/productDetail/ProductInfo'
+import { TableSubProducts } from '../../components/Product/productDetail/TableSubProducts'
 
 export async function getServerSideProps(context) {
 	const { pid } = context.params
@@ -53,7 +54,10 @@ const Product = ({ initialState, types, units }) => {
 			<Navigation pid={pid} router={router} />
 			{
 				(!loading) &&
-				<ProductInfo />
+				<>
+					<ProductInfo />
+					<TableSubProducts />
+				</>
 			}
 		</>
 	)

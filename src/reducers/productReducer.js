@@ -40,6 +40,15 @@ export const productActive = (state = { product: [], loading: true }, action) =>
 		case types.productClearActive:
 			return { product: {}, loading: true }
 
+		case types.productAddEntry:
+			return {
+				...state,
+				product: {
+					...state.product,
+					sub_product: [...state.product.sub_product, action.payload]
+				}
+			}
+
 		default:
 			return state
 

@@ -18,6 +18,23 @@ export const productStartLoadingData = () => {
 	}
 }
 
+export const productStartLoad = (id) => {
+	return async (dispatch) => {
+
+		try {
+
+			const resp = await fetchSinToken(`product/${id}/`);
+			const body = await resp.json();
+
+			dispatch(productSetActive(body))
+
+		} catch (error) {
+			console.log(error);
+		}
+
+	}
+}
+
 export const productStartCreate = (product, router) => {
 	return async (dispatch) => {
 		try {

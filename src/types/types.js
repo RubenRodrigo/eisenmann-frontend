@@ -21,6 +21,7 @@ export const types = {
 
 	productSetActive: '[product] Set active product',
 	productClearActive: '[product] Clear active product',
+	productAddEntry: '[product] Add entry to product',
 
 	typeSetData: '[type] Set types',
 	typeClearData: '[type] Clear types',

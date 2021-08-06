@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-import { CalculatorIcon } from '@heroicons/react/outline'
+import { AnnotationIcon, CalculatorIcon } from '@heroicons/react/outline'
 import { TextField } from '../../ui/TextField'
 import Modal from '../../Modal/Modal'
 import { useForm } from 'react-hook-form'
@@ -11,6 +11,8 @@ export const ProductModalForm = ({ open, setOpen, initialValues, handleSubmitFor
 
 	useEffect(() => {
 		setValue('stock', initialValues.stock, { shouldValidate: true })
+		setValue('description', initialValues.description, { shouldValidate: true })
+		setValue('unit_price', initialValues.unit_price)
 	}, [setValue, initialValues])
 
 	return (
@@ -19,7 +21,7 @@ export const ProductModalForm = ({ open, setOpen, initialValues, handleSubmitFor
 				<form onSubmit={handleSubmit(handleSubmitForm)}>
 					{/* Modal Header */}
 					<div className="bg-gray-50 px-4 py-3 sm:px-6 ">
-						<h3 className="text-2xl">Modificar Stock</h3>
+						<h3 className="text-2xl">Nueva entrada</h3>
 					</div>
 
 					{/* Modal Body */}
@@ -38,6 +40,32 @@ export const ProductModalForm = ({ open, setOpen, initialValues, handleSubmitFor
 									<CalculatorIcon className="h-5 self-center pl-2" />
 								</TextField>
 								{errors.stock && <span className="text-red-500 text-sm">Este campo es requerido</span>}
+							</div>
+							<div className="mb-5">
+								<label className="mb-2 block text-md text-gray-600">Precio Unitario</label>
+								<TextField
+									type="number"
+									placeholder="00"
+									name="unit_price"
+									register={register}
+									required
+									error={errors.unit_price}
+								>
+									<CalculatorIcon className="h-5 self-center pl-2" />
+								</TextField>
+								{errors.unit_price && <span className="text-red-500 text-sm">Este campo es requerido</span>}
+							</div>
+							<div className="mb-5">
+								<label className="mb-2 block text-md text-gray-600">Descripcion</label>
+								<TextField
+									type="text"
+									name="description"
+									register={register}
+									error={errors.description}
+								>
+									<AnnotationIcon className="h-5 self-center pl-2" />
+								</TextField>
+								{errors.description && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 							</div>
 						</div>
 					</div>

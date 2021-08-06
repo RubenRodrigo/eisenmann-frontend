@@ -15,7 +15,8 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 		init_date,
 		end_date,
 		state,
-		observations
+		observations,
+		service_products,
 	} = { ...service }
 
 	return (
@@ -93,12 +94,24 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 							className="p-2 bg-green-500 text-white rounded hover:bg-green-600">
 							Ver reporte
 						</button>
-						<button
-							onClick={handleDelete}
-							className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
-						>
-							Eliminar servicio
-						</button>
+						{
+							(service_products.length > 0)
+								?
+								<button
+									className="p-2 bg-red-400 text-white rounded cursor-not-allowed"
+									disabled
+								>
+									Eliminar servicio (No)
+								</button>
+								:
+								<button
+									onClick={handleDelete}
+									className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
+								>
+									Eliminar servicio
+								</button>
+						}
+
 					</div>
 				</div>
 			</div>

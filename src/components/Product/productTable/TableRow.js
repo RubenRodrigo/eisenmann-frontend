@@ -5,6 +5,7 @@ import { useRouter } from 'next/dist/client/router'
 import { useDispatch } from 'react-redux'
 import { productStartDelete } from '../../../actions/product'
 import { useForm } from 'react-hook-form'
+import { Stock } from '../../ui/Stock'
 
 export const TableRow = ({ currentProduct, handleOpenModal, handleSubmitRowForm }) => {
 
@@ -32,35 +33,6 @@ export const TableRow = ({ currentProduct, handleOpenModal, handleSubmitRowForm 
 
 	const handleProductDelete = () => {
 		dispatch(productStartDelete(id, router))
-	}
-
-	const Stock = ({ value }) => {
-		if (value >= 30) {
-			return (
-				<span
-					className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full"
-				>
-					{value} en stock
-				</span>
-			)
-		} else if (value >= 15) {
-			return (
-				<span
-					className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full"
-				>
-					{value} en stock
-				</span>
-			)
-		} else {
-			return (
-				<span
-					className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full"
-				>
-					{value} en stock
-				</span>
-			)
-		}
-
 	}
 
 	return (
