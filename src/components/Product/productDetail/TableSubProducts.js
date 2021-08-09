@@ -12,12 +12,13 @@ export const TableSubProducts = () => {
 
 	const {
 		id,
-		sub_product: entries
+		name,
+		product_entry
 	} = { ...product }
 
 	const initialState = {
 		stock: 20,
-		description: '',
+		description: name,
 		unit_price: 10,
 	}
 
@@ -35,6 +36,8 @@ export const TableSubProducts = () => {
 
 	const handleSubmitForm = (data) => {
 		data.product = id
+		data.init_stock = data.stock
+		console.log(data);
 		dispatch(productStartAddEntry(data))
 		setOpen(false)
 	}
@@ -92,13 +95,13 @@ export const TableSubProducts = () => {
 					</thead>
 					<tbody>
 						{
-							entries.map((entry) => (
+							product_entry.map((entry) => (
 								<tr key={entry.id} className="hover:bg-gray-50 border-b border-t">
 									<td className="text-left p-2">
 										{entry.description}
 									</td>
 									<td className="text-left p-2">
-										{entry.stock}
+										{entry.init_stock}
 									</td>
 									<td className="text-left p-2">
 										{entry.stock}

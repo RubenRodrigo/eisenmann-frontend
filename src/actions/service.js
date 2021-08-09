@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { fetchSinToken } from "../helpers/fetch";
 import { types } from "../types/types";
 import { productStartLoadingData } from "./product";
@@ -14,6 +15,23 @@ export const serviceStartLoadingData = () => {
 			const body = await resp.json();
 
 			dispatch(serviceSetData(body))
+
+		} catch (error) {
+			console.log(error);
+		}
+
+	}
+}
+
+export const serviceStartLoad = (id) => {
+	return async (dispatch) => {
+
+		try {
+
+			const resp = await fetchSinToken(`service/${id}/`);
+			const body = await resp.json();
+
+			dispatch(serviceSetActive(body))
 
 		} catch (error) {
 			console.log(error);
@@ -79,7 +97,11 @@ export const serviceStartAddProduct = (product) => {
 			const resp = await fetchSinToken(`service/service_product/`, product, 'POST');
 			const body = await resp.json();
 
-			dispatch(serviceAddProduct(body))
+			if (resp.ok) {
+				dispatch(serviceStartLoad(body.service))
+			} else {
+				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+			}
 
 		} catch (error) {
 			console.log(error);
@@ -95,7 +117,12 @@ export const serviceStartUpdateProduct = (product) => {
 			const resp = await fetchSinToken(`service/service_product/${product.id}/`, product, 'PUT');
 			const body = await resp.json();
 
-			dispatch(serviceUpdateProduct(body))
+			if (resp.ok) {
+				dispatch(serviceStartLoad(body.service))
+			} else {
+				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+			}
+
 		} catch (error) {
 			console.log(error)
 		}

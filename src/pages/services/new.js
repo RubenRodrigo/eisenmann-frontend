@@ -41,16 +41,15 @@ const NewService = () => {
 		client: '1',
 		code: '516156',
 		estimated_price: '152',
-		init_date: moment().format('YYYY-MM-DD'),
-		end_date: moment().format('YYYY-MM-DD'),
 		observations: 'ff',
 		state: false,
 	}
 
 	const handleSubmitForm = (data) => {
 		console.log(data)
-		dispatch(serviceStartAddNew(data, router));
+		// dispatch(serviceStartAddNew(data, router));
 	}
+
 
 	return (
 		<>

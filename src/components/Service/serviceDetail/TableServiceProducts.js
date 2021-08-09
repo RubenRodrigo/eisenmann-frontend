@@ -13,6 +13,7 @@ export const TableServiceProducts = () => {
 
 	const {
 		id,
+		state,
 		service_products,
 	} = { ...service }
 
@@ -49,6 +50,7 @@ export const TableServiceProducts = () => {
 		} else {
 			dispatch(serviceStartAddProduct(data))
 		}
+		console.log(data);
 		setOpen(false)
 		dispatch(productStartLoadingData())
 	}
@@ -68,15 +70,29 @@ export const TableServiceProducts = () => {
 						<h1 className="text-3xl	font-semibold">Lista de Subservicios y Productos</h1>
 					</div>
 					<div>
-						<button
-							onClick={handleAddProduct}
-							className="bg-blue-800 px-3 py-2 rounded-lg block hover:bg-blue-900 transition duration-300"
-						>
-							<div className="flex text-white ">
-								<PlusIcon className="h-5 w-5 self-center" />
-								<span className="pl-2 font-semibold">Añadir un Producto</span>
-							</div>
-						</button>
+						{
+							(state)
+								?
+								<button
+									className="bg-blue-500 px-3 py-2 rounded-lg block cursor-not-allowed"
+								>
+									<div className="flex text-white ">
+										<PlusIcon className="h-5 w-5 self-center" />
+										<span className="pl-2 font-semibold">Añadir un Producto</span>
+									</div>
+								</button>
+								:
+								<button
+									onClick={handleAddProduct}
+									className="bg-blue-800 px-3 py-2 rounded-lg block hover:bg-blue-900 transition duration-300"
+								>
+									<div className="flex text-white ">
+										<PlusIcon className="h-5 w-5 self-center" />
+										<span className="pl-2 font-semibold">Añadir un Producto</span>
+									</div>
+								</button>
+						}
+
 					</div>
 				</div>
 			</div>
@@ -125,18 +141,37 @@ export const TableServiceProducts = () => {
 									</td>
 									<td className="p-2">
 										<div className="flex justify-center p-2">
-											<button
-												className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
-												onClick={() => handleEditProduct(ser_product)}
-											>
-												<PencilAltIcon className="h-5" />
-											</button>
-											<button
-												className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
-												onClick={() => handleDeleteProduct(ser_product.id)}
-											>
-												<TrashIcon className="h-5" />
-											</button>
+											{
+												(state)
+													?
+													<>
+														<button
+															className="p-3 bg-gray-100 rounded-full transition duration-300 cursor-not-allowed"
+														>
+															<PencilAltIcon className="h-5" />
+														</button>
+														<button
+															className="p-3 bg-gray-100 rounded-full transition duration-300 cursor-not-allowed"
+														>
+															<TrashIcon className="h-5" />
+														</button>
+													</>
+													:
+													<>
+														<button
+															className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
+															onClick={() => handleEditProduct(ser_product)}
+														>
+															<PencilAltIcon className="h-5" />
+														</button>
+														<button
+															className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
+															onClick={() => handleDeleteProduct(ser_product.id)}
+														>
+															<TrashIcon className="h-5" />
+														</button>
+													</>
+											}
 										</div>
 									</td>
 								</tr>

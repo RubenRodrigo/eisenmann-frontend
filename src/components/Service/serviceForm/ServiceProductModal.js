@@ -65,6 +65,7 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 								>
 									<option
 										value={0}
+										disabled
 									>
 										Selecciona una opcion
 									</option>
@@ -73,6 +74,7 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 											<option
 												key={product.id}
 												value={product.id}
+												disabled={product.total_stock <= 0 ? true : false}
 											>
 												{product.name}
 											</option>

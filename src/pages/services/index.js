@@ -11,12 +11,20 @@ import { fetchSinToken } from '../../helpers/fetch'
 export async function getServerSideProps() {
 	// TODO: Verify if this service exist
 
-	const resp = await fetchSinToken('service');
-	const initialState = await resp.json();
+	try {
+		const resp = await fetchSinToken('service');
+		const initialState = await resp.json();
+		return {
+			props: { initialState }
+		}
+	} catch (e) {
+		console.log(e);
+		return {
+			props: { initialState: [] }
+		}
 
-	return {
-		props: { initialState }
 	}
+
 
 }
 

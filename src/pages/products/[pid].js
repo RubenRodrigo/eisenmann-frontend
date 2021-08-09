@@ -5,29 +5,30 @@ import { ArrowLeftIcon } from '@heroicons/react/outline'
 
 import { fetchSinToken } from '../../helpers/fetch'
 import { useDispatch, useSelector } from 'react-redux'
-import { productClearActive, productSetActive, productStartUpdate } from '../../actions/product'
-import { typeClearData, typeSetData } from '../../actions/type'
-import { unitClearData, unitSetData } from '../../actions/unit'
+import { productClearActive, productSetActive } from '../../actions/product'
 import ProductInfo from '../../components/Product/productDetail/ProductInfo'
 import { TableSubProducts } from '../../components/Product/productDetail/TableSubProducts'
 
 export async function getServerSideProps(context) {
 	const { pid } = context.params
 
-	const resp = await fetchSinToken(`product/${pid}`);
-	const type = await fetchSinToken('product/type');
-	const unit = await fetchSinToken('product/unit');
+	try {
+		const resp = await fetchSinToken(`product/${pid}`);
+		const initialState = await resp.json();
+		return {
+			props: { initialState }
+		}
 
-	const initialState = await resp.json();
-	const units = await unit.json();
-	const types = await type.json();
-
-	return {
-		props: { initialState, types, units }
+	} catch (error) {
+		console.log(error);
+		return {
+			props: { initialState: [] }
+		}
 	}
+
 }
 
-const Product = ({ initialState, types, units }) => {
+const Product = ({ initialState }) => {
 
 	const dispatch = useDispatch()
 	const router = useRouter()
@@ -36,16 +37,11 @@ const Product = ({ initialState, types, units }) => {
 	useEffect(() => {
 		dispatch(productSetActive(initialState))
 
-		dispatch(typeSetData(types))
-		dispatch(unitSetData(units))
-
 		return () => {
 			dispatch(productClearActive())
-
-			dispatch(typeClearData())
-			dispatch(unitClearData())
 		}
-	}, [dispatch, initialState, types, units])
+
+	}, [dispatch, initialState])
 
 	const { loading } = useSelector(state => state.productActive)
 

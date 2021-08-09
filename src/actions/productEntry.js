@@ -8,7 +8,7 @@ export const productStartAddEntry = (entry) => {
 
 		try {
 
-			const resp = await fetchSinToken(`product/sub_product/`, entry, 'POST');
+			const resp = await fetchSinToken(`product/product_entry/`, entry, 'POST');
 			const { product } = await resp.json();
 
 			dispatch(productStartLoad(product))
@@ -22,7 +22,7 @@ export const productStartAddEntry = (entry) => {
 export const productStartDeleteEntry = (id, entry_id) => {
 	return async (dispatch) => {
 		try {
-			const resp = await fetchSinToken(`product/sub_product/${entry_id}`, '', 'DELETE');
+			const resp = await fetchSinToken(`product/product_entry/${entry_id}`, '', 'DELETE');
 
 			if (resp.ok) {
 				dispatch(productStartLoad(id))

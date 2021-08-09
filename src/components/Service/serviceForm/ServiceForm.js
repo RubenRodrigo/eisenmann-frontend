@@ -1,34 +1,24 @@
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
-import { BriefcaseIcon, CalendarIcon, CashIcon, KeyIcon, UsersIcon } from '@heroicons/react/outline'
-import moment from 'moment'
+import { BriefcaseIcon, CashIcon, KeyIcon, UsersIcon } from '@heroicons/react/outline'
 
 import { TextField } from '../../ui/TextField'
 import { TextArea } from '../../ui/TextArea'
+import { Switch } from '@headlessui/react'
 
 export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 
-	const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+	const { register, handleSubmit, setValue, control, formState: { errors } } = useForm();
 
 	useEffect(() => {
 		setValue('name', initialValues.name, { shouldValidate: true })
 		setValue('client', initialValues.client, { shouldValidate: true })
 		setValue('code', initialValues.code, { shouldValidate: true })
 		setValue('estimated_price', initialValues.estimated_price, { shouldValidate: true })
-		setValue('init_date', initialValues.init_date, { shouldValidate: true })
-		setValue('end_date', initialValues.end_date, { shouldValidate: true })
 		setValue('observations', initialValues.observations, { shouldValidate: true })
-		setValue('state', initialValues.state, { shouldValidate: true })
 	}, [setValue, initialValues])
 
-	const handleSetInitDate = () => {
-		setValue('init_date', moment().format('YYYY-MM-DD'), { shouldValidate: true })
-	}
-
-	const handleSetEndDate = () => {
-		setValue('end_date', moment().format('YYYY-MM-DD'), { shouldValidate: true })
-	}
 
 	return (
 		<form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -89,57 +79,28 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 					</TextField>
 					{errors.estimated_price && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
-				<div className="col-span-1 flex gap-2">
-					<div className="flex-1">
-						<label className="mb-2 block text-md text-gray-600">Fecha Inicio</label>
-						<TextField
-							type="date" placeholder="Fecha Inicio"
-							name="init_date"
-							register={register}
-							required
-							error={errors.init_date}
-						>
-							<CalendarIcon className="h-5 self-center pl-2" />
-						</TextField>
-						{errors.init_date && <span className="text-red-500 text-sm">Este campo es requerido</span>}
-					</div>
-					<div className="flex-initial self-end">
-						<button
-							type="button"
-							onClick={handleSetInitDate}
-							className="p-3 text-blue-700 rounded hover:bg-blue-50 hover:underline"
-						>
-							Fecha actual
-						</button>
-					</div>
-				</div >
 				<div className="col-span-1">
+					<Controller
+						control={control}
+						name="state"
+						defaultValue={initialValues.state}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<Switch
+								checked={value}
+								onChange={onChange}
+								onBlur={onBlur}
+								className={`${value ? 'bg-blue-600' : 'bg-gray-200'
+									} relative inline-flex items-center h-6 rounded-full w-11`}
+							>
+								<span className="sr-only">Enable notifications</span>
+								<span
+									className={`${value ? 'translate-x-6' : 'translate-x-1'
+										} inline-block w-4 h-4 transform bg-white rounded-full`}
+								/>
+							</Switch>
+						)}
+					/>
 				</div>
-				<div className="col-span-1 flex gap-2">
-					<div className="flex-1">
-						<label className="mb-2 block text-md text-gray-600">Fecha Fin</label>
-						<TextField
-							type="date"
-							placeholder="Fecha Fin"
-							name="end_date"
-							register={register}
-							required
-							error={errors.end_date}
-						>
-							<CalendarIcon className="h-5 self-center pl-2" />
-						</TextField>
-						{errors.end_date && <span className="text-red-500 text-sm">Este campo es requerido</span>}
-					</div>
-					<div className="flex-initial self-end">
-						<button
-							type="button"
-							onClick={handleSetEndDate}
-							className="p-3 text-blue-700 rounded hover:bg-blue-50 hover:underline"
-						>
-							Fecha actual
-						</button>
-					</div>
-				</div >
 				<div className="col-span-1">
 				</div>
 				<div className="col-span-2">

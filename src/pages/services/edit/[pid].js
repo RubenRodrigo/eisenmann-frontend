@@ -38,8 +38,6 @@ const ServiceEdit = ({ initialState }) => {
 		client: service.client,
 		code: service.code,
 		estimated_price: service.estimated_price,
-		init_date: service.init_date,
-		end_date: service.end_date,
 		observations: service.observations,
 		state: service.state,
 	}
