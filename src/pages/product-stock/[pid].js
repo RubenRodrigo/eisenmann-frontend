@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { ArrowLeftIcon } from '@heroicons/react/outline'
 
+
+// Helpers
 import { fetchSinToken } from '../../helpers/fetch'
-import { useDispatch, useSelector } from 'react-redux'
-import { productStockClearActive, productStockSetActive } from '../../actions/productStock'
+
+// Actions
+import {
+	productStockClearActive,
+	productStockSetActive
+} from '../../actions/productStock'
 
 // Components
 import { ProductEntryTable } from '../../components/ProductStock/Detail/ProductEntryTable'

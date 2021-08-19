@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { AnnotationIcon, CalculatorIcon, CashIcon } from '@heroicons/react/outline'
+import { AnnotationIcon } from '@heroicons/react/outline'
 
 import { TextField } from '../../ui/TextField'
 import { TextArea } from '../../ui/TextArea'

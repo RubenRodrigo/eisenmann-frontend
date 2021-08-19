@@ -4,82 +4,58 @@ import { ArrowRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outli
 import { useRouter } from 'next/dist/client/router'
 import { useDispatch } from 'react-redux'
 import { productStartDelete } from '../../../actions/product'
-import { useForm } from 'react-hook-form'
-import { Stock } from '../../ui/Stock'
 
-export const TableRow = ({ currentProduct, handleOpenModal, handleSubmitRowForm }) => {
+import moment from 'moment'
+
+export const TableRow = ({ currentProduct }) => {
 
 	const dispatch = useDispatch()
 	const router = useRouter()
-	const { id, type, type_detail, unit, unit_detail, code, name, description, unit_price, total_stock } = currentProduct
 
-	const { register, handleSubmit, watch, formState: { errors } } = useForm({
-		defaultValues: {
-			real: '15',
-			id,
-		}
-	});
-
-	// const watchReal = watch("real", false); // you can supply default value as second argument
 
 	const handleProductEdit = () => {
 
 		router.push({
 			pathname: '/products/edit/[pid]',
-			query: { pid: id },
+			query: { pid: currentProduct.id },
 		})
 
 	}
 
 	const handleProductDelete = () => {
-		dispatch(productStartDelete(id, router))
+		dispatch(productStartDelete(currentProduct.id))
 	}
 
 	return (
 		<tr className="hover:bg-gray-50 border-b border-t">
 			<td className="text-left p-2">
-				{code}
+				{currentProduct.code}
 			</td>
 			<td className="text-left p-2">
-				{name}
-			</td>
-
-			<td className="text-left p-2">
-				{type_detail.name}
+				{currentProduct.name}
 			</td>
 			<td className="text-left p-2">
-				{unit_detail.name}
-			</td>
-
-			<td className="text-left p-2">
-				<button
-					type="button"
-					onClick={() => handleOpenModal(currentProduct)}
-				>
-					<Stock value={parseInt(total_stock)} />
-				</button>
-			</td>
-
-			{/* <td className="text-left p-2">
-				<form onSubmit={handleSubmit(handleSubmitRowForm)}>
-					<input
-						className="w-16 text-center focus:outline-none border-b"
-						type="text"
-						{...register('real', { required: true })}
-					/>
-				</form>
+				{currentProduct.description}
 			</td>
 			<td className="text-left p-2">
-				{
-					(watchReal) &&
-					parseInt(stock) - parseInt(watchReal)
-				}
-			</td> */}
+				{currentProduct.type_detail.name}
+			</td>
+			<td className="text-left p-2">
+				{currentProduct.unit_detail.name}
+			</td>
+			<td className="text-left p-2">
+				<span className="pr-4">
+					{moment(currentProduct.created_at).format('DD-MM-YYYY')}
+				</span>
+				<span className="pr-4">
+					{moment(currentProduct.created_at).format('HH:mm')}
+				</span>
+			</td>
 			<td className="p-2">
 				<div className="flex justify-center p-2">
 					<button
 						className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
-						onClick={() => router.push({ pathname: '/products/[pid]', query: { pid: id } })}
+						onClick={() => router.push({ pathname: '/product-stock/[pid]', query: { pid: currentProduct.id } })}
 					>
 						<ArrowRightIcon className="h-5" />
 					</button>

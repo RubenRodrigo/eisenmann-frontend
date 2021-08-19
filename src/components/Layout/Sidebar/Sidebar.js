@@ -1,9 +1,11 @@
-import React from 'react'
-
-import { CalendarIcon, HomeIcon, ShoppingCartIcon, TruckIcon, UserGroupIcon } from '@heroicons/react/outline'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
+import { CalendarIcon, ChevronDownIcon, HomeIcon, ShoppingCartIcon, TruckIcon, UserGroupIcon } from '@heroicons/react/outline'
+
 export const Sidebar = () => {
+
+	const [open, setOpen] = useState(false)
 
 	return (
 		<>
@@ -37,17 +39,56 @@ export const Sidebar = () => {
 						</Link>
 					</div>
 					<div className="link-container transition duration-200">
-						<Link href="/products">
-							<a>
-								<div className="flex p-3">
-									<ShoppingCartIcon className="h-7 w-7" />
-									<h3 className="pl-3">
-										Productos
-									</h3>
-								</div>
-							</a>
-						</Link>
+						<div
+							className="flex p-3"
+							onClick={() => setOpen(!open)}
+						>
+							<ShoppingCartIcon className="h-7 w-7" />
+							<h3 className="pl-3">
+								Productos
+							</h3>
+							<div className="flex-1 flex justify-end">
+								<ChevronDownIcon className="w-5" />
+							</div>
+						</div>
 					</div>
+					{open &&
+						<>
+							<div className="link-container transition duration-200">
+								<Link href="/products">
+									<a>
+										<div className="flex pl-10 p-3">
+											<h3 className="pl-3">
+												Productos
+											</h3>
+										</div>
+									</a>
+								</Link>
+							</div>
+							<div className="link-container transition duration-200">
+								<Link href="/product-stock">
+									<a>
+										<div className="flex pl-10 p-3">
+											<h3 className="pl-3">
+												Stock de Productos
+											</h3>
+										</div>
+									</a>
+								</Link>
+							</div>
+							<div className="link-container transition duration-200">
+								<Link href="/shop">
+									<a>
+										<div className="flex pl-10 p-3">
+											<h3 className="pl-3">
+												Compras
+											</h3>
+										</div>
+									</a>
+								</Link>
+							</div>
+						</>
+					}
 					<div className="link-container transition duration-200">
 						<Link href="/clients">
 							<a>

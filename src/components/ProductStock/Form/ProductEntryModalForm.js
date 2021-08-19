@@ -5,7 +5,7 @@ import { TextField } from '../../ui/TextField'
 import Modal from '../../Modal/Modal'
 import { useForm } from 'react-hook-form'
 
-export const ProductModalForm = ({ open, setOpen, initialValues, handleSubmitForm }) => {
+export const ProductEntryModalForm = ({ open, setOpen, initialValues, handleSubmitForm }) => {
 
 	const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 

@@ -1,12 +1,15 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import { useRouter } from 'next/dist/client/router'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { serviceStartUpdate } from '../../../actions/service'
+import { ServiceStateModal } from '../serviceForm/ServiceStateModal'
 
 export const InfoService = ({ handleDelete, handleReport }) => {
 
+	const dispatch = useDispatch()
 	const { service } = useSelector(state => state.serviceActive)
-
+	const router = useRouter()
 	const {
-		id,
 		name,
 		client_detail,
 		code,
@@ -19,8 +22,23 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 		service_products,
 	} = { ...service }
 
+	const [open, setOpen] = useState(false)
+
+	const handleSubmitForm = (data) => {
+		if (data.state !== state) {
+			data.id = service.id
+			dispatch(serviceStartUpdate(data, router));
+		}
+		setOpen(false)
+	}
+
 	return (
 		<div className="shadow-md p-4 my-5">
+			<ServiceStateModal
+				open={open}
+				setOpen={setOpen}
+				handleSubmitForm={handleSubmitForm}
+			/>
 			<div className="grid grid-cols-2 gap-4 mt-5">
 				<div className="col-span-1 border border-gray-300 rounded-lg">
 					<div className="border-b border-gray-300 p-2">
@@ -56,17 +74,22 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 					<div className="p-2">
 						<div className="flex p-2">
 							<h3 className="font-bold">Estado:</h3>
-							{
-								(state)
-									?
-									<p className="ml-2 bg-red-500 text-white px-3 rounded-full">
-										Completado
-									</p>
-									:
-									<p className="ml-2 bg-green-500 text-white px-3 rounded-full">
-										En progreso
-									</p>
-							}
+							<div
+								className="cursor-pointer"
+								onClick={() => setOpen(true)}
+							>
+								{
+									(state)
+										?
+										<p className="ml-2 bg-red-500 text-white px-3 rounded-full">
+											Completado
+										</p>
+										:
+										<p className="ml-2 bg-green-500 text-white px-3 rounded-full">
+											En progreso
+										</p>
+								}
+							</div>
 						</div>
 						<div className="flex p-2">
 							<h3 className="font-bold">Fecha de Inicio:</h3>
@@ -95,21 +118,22 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 							Ver reporte
 						</button>
 						{
-							(service_products.length > 0)
+							(service_products.length <= 0 && !state)
 								?
-								<button
-									className="p-2 bg-red-400 text-white rounded cursor-not-allowed"
-									disabled
-								>
-									Eliminar servicio (No)
-								</button>
-								:
 								<button
 									onClick={handleDelete}
 									className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
 								>
 									Eliminar servicio
 								</button>
+								:
+								<button
+									className="p-2 bg-red-400 text-white rounded cursor-not-allowed"
+									disabled
+								>
+									Eliminar servicio (No)
+								</button>
+
 						}
 
 					</div>

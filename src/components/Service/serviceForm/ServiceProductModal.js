@@ -9,7 +9,7 @@ import { Select } from '../../ui/Select'
 
 export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmitForm }) => {
 
-	const { products } = useSelector(state => state.productList)
+	const { productStocks } = useSelector(state => state.productStockList)
 	const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
 
 	const watchProduct = watch("product", false); // you can supply default value as second argument
@@ -27,7 +27,7 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 	useEffect(() => {
 		if (watchProduct && watchQuantity) {
 			if (watchProduct > 0) {
-				const product = products.find(e => e.id == watchProduct)
+				const product = productStocks.find(e => e.id == watchProduct)
 
 				const unitPrice = product.current_price ? product.current_price : 0
 
@@ -40,7 +40,7 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 				setTotal(0)
 			}
 		}
-	}, [products, watchProduct, watchQuantity])
+	}, [productStocks, watchProduct, watchQuantity])
 
 	return (
 		<div>
@@ -70,13 +70,13 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 										Selecciona una opcion
 									</option>
 									{
-										products.map((product, index) => (
+										productStocks.map((product) => (
 											<option
 												key={product.id}
 												value={product.id}
 												disabled={product.total_stock <= 0 ? true : false}
 											>
-												{product.name}
+												{product.product_detail?.name}
 											</option>
 										))
 									}
@@ -99,6 +99,20 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 								{errors.employee && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 							</div>
 							<div className="mb-5">
+								<label className="mb-2 block text-md text-gray-600">Cantidad</label>
+								<TextField
+									type="number"
+									placeholder="15"
+									name="quantity"
+									register={register}
+									required
+									error={errors.quantity}
+								>
+									<CalculatorIcon className="h-5 self-center pl-2" />
+								</TextField>
+								{errors.quantity && <span className="text-red-500 text-sm">Este campo es requerido</span>}
+							</div>
+							<div className="mb-5">
 								<label className="mb-2 block text-md text-gray-600">Descripcion</label>
 								<TextField
 									type="text"
@@ -112,21 +126,6 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 								</TextField>
 
 								{errors.description && <span className="text-red-500 text-sm">Este campo es requerido</span>}
-							</div>
-							<div className="mb-5">
-								<label className="mb-2 block text-md text-gray-600">Cantidad</label>
-								<TextField
-									type="number"
-									placeholder="15"
-									name="quantity"
-									register={register}
-									required
-									error={errors.quantity}
-								// disabled={initialValues.id ? true : false}
-								>
-									<CalculatorIcon className="h-5 self-center pl-2" />
-								</TextField>
-								{errors.quantity && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 							</div>
 						</div>
 						<div className="pb-5">

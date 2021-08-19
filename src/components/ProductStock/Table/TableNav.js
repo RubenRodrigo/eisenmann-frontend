@@ -1,15 +1,28 @@
-import { PlusIcon, SearchIcon } from '@heroicons/react/outline'
+import { SearchIcon } from '@heroicons/react/outline'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { uiCloseCalendar, uiOpenCalendar } from '../../../actions/ui'
+import { Calendar } from '../../ui/Calendar'
 
 export const TableNav = () => {
+	const dispatch = useDispatch()
+	const { open } = useSelector(state => state.uiCalendar)
+
 	const [focusInput, setFocusInput] = useState(false)
 	const [focusSelect, setFocusSelect] = useState(false)
+
+	const handleCalendar = () => {
+		if (!open) {
+			dispatch(uiOpenCalendar())
+		} else {
+			dispatch(uiCloseCalendar())
+		}
+	}
 
 	return (
 		<div className="grid grid-cols-6 gap-6 p-4">
 			<div className="col-span-2">
 				<div
-
 					className={`
 						flex p-3 rounded-xl 
 						${focusInput ? 'border-blue-800 border-2' : 'border-gray-400 border hover:border-gray-800'}
@@ -43,15 +56,20 @@ export const TableNav = () => {
 					</select>
 				</div>
 			</div>
-			<div className="col-start-6 col-span-1">
-				<div className="h-full flex content-center justify-end">
-					<button className="bg-blue-800 px-3 py-2 rounded-lg block hover:bg-blue-900 transition duration-300">
-						<div className="flex text-white ">
-							<PlusIcon className="h-5 w-5 self-center" />
-							<span className="pl-2 font-semibold">Nueva hoja</span>
-						</div>
-					</button>
-				</div>
+			<div className="col-span-2 justify-self-end relative">
+				<button
+					onClick={handleCalendar}
+					className="bg-blue-800 px-3 py-2 rounded-lg block hover:bg-blue-900 transition duration-300 relative"
+				>
+					<div className="flex text-white ">
+						<span className="pl-2 font-semibold">Ver calendario</span>
+					</div>
+				</button>
+				{open &&
+					<div className="absolute top-12 right-0 shadow-md">
+						<Calendar />
+					</div>
+				}
 			</div>
 		</div >
 	)

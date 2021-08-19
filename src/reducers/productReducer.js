@@ -10,6 +10,18 @@ export const productList = (state = { products: [] }, action) => {
 				products: [...action.payload]
 			}
 
+		case types.productAddNew:
+			return {
+				...state,
+				products: [action.payload, ...state.products]
+			}
+
+		case types.productUpdated:
+			return {
+				...state,
+				products: state.products.map((e) => (e.id === action.payload.id) ? action.payload : e)
+			}
+
 		case types.productDeleted:
 			return {
 				...state,
@@ -40,33 +52,8 @@ export const productActive = (state = { product: [], loading: true }, action) =>
 		case types.productClearActive:
 			return { product: {}, loading: true }
 
-		case types.productAddEntry:
-			return {
-				...state,
-				product: {
-					...state.product,
-					sub_product: [...state.product.sub_product, action.payload]
-				}
-			}
-
 		default:
 			return state
 
-	}
-}
-
-export const productCreated = (state = { product: {}, loading: true }, action) => {
-
-	switch (action.type) {
-
-		case types.productAddNew:
-			return {
-				...state,
-				loading: false,
-				product: action.payload
-			}
-
-		default:
-			return state
 	}
 }

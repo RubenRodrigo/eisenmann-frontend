@@ -5,10 +5,10 @@ import { useDispatch } from 'react-redux'
 import { ArrowLeftIcon } from '@heroicons/react/outline'
 
 import { productStartCreate } from '../../actions/product'
-import { ProductForm } from '../../components/Product/productForm/ProductForm'
 import { fetchSinToken } from '../../helpers/fetch'
 import { typeClearData, typeSetData } from '../../actions/type'
 import { unitClearData, unitSetData } from '../../actions/unit'
+import { ProductForm } from '../../components/Product/Form/ProductForm'
 
 export async function getServerSideProps() {
 
@@ -47,7 +47,6 @@ const NewProduct = ({ types, units }) => {
 	}
 
 	const handleSubmitForm = (data) => {
-		console.log(data);
 		dispatch(productStartCreate(data, router));
 	}
 

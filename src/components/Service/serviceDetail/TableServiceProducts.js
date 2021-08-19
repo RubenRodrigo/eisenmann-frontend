@@ -50,7 +50,6 @@ export const TableServiceProducts = () => {
 		} else {
 			dispatch(serviceStartAddProduct(data))
 		}
-		console.log(data);
 		setOpen(false)
 		dispatch(productStartLoadingData())
 	}
@@ -125,7 +124,7 @@ export const TableServiceProducts = () => {
 							service_products.map((ser_product) => (
 								<tr key={ser_product.id} className="hover:bg-gray-50 border-b border-t">
 									<td className="text-left p-2">
-										{ser_product.product_detail.name}
+										{ser_product.product_detail.product_detail.name}
 									</td>
 									<td className="text-left p-2">
 										{ser_product.employee_detail.name}

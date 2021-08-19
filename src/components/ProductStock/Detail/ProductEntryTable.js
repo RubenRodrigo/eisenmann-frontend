@@ -1,20 +1,22 @@
 import React, { useState } from 'react'
-
-import { PlusIcon, TrashIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
-import { ProductModalForm } from '../productForm/ProductModalForm'
-import { productStartAddEntry, productStartDeleteEntry } from '../../../actions/productEntry'
 
-export const TableSubProducts = () => {
+import moment from 'moment'
+import { PlusIcon, TrashIcon } from '@heroicons/react/outline'
+
+import { ProductEntryModalForm } from '../Form/ProductEntryModalForm'
+import { productStockStartAddEntry, productStockStartDeleteEntry } from '../../../actions/productEntry'
+
+export const ProductEntryTable = () => {
 
 	const dispatch = useDispatch()
-	const { product } = useSelector(state => state.productActive)
+	const { productStock } = useSelector(state => state.productStockActive)
 
 	const {
 		id,
 		name,
 		product_entry
-	} = { ...product }
+	} = { ...productStock }
 
 	const initialState = {
 		stock: 20,
@@ -31,21 +33,19 @@ export const TableSubProducts = () => {
 	}
 
 	const handleDeleteEntryProduct = (entry_id) => {
-		dispatch(productStartDeleteEntry(id, entry_id))
+		dispatch(productStockStartDeleteEntry(id, entry_id))
 	}
 
 	const handleSubmitForm = (data) => {
 		data.product = id
 		data.init_stock = data.stock
-		console.log(data);
-		dispatch(productStartAddEntry(data))
+		dispatch(productStockStartAddEntry(data))
 		setOpen(false)
 	}
 
-
 	return (
 		<div className="shadow-md p-4">
-			<ProductModalForm
+			<ProductEntryModalForm
 				open={open}
 				setOpen={setOpen}
 				initialValues={formValues}
@@ -80,6 +80,9 @@ export const TableSubProducts = () => {
 								Stock de Ingreso
 							</th>
 							<th className="text-left p-2 w-1/6">
+								Precio total
+							</th>
+							<th className="text-left p-2 w-1/6">
 								Stock
 							</th>
 							<th className="text-left p-2 w-1/6">
@@ -104,22 +107,24 @@ export const TableSubProducts = () => {
 										{entry.init_stock}
 									</td>
 									<td className="text-left p-2">
+										{entry.total_cost}
+									</td>
+									<td className="text-left p-2">
 										{entry.stock}
 									</td>
 									<td className="text-left p-2">
 										S/. {entry.unit_price}
 									</td>
 									<td className="text-left p-2">
-										{entry.created_at}
+										<h2>
+											{moment(entry.created_at).format('DD-MM-YYYY')}
+										</h2>
+										<h2>
+											{moment(entry.created_at).format('HH:mm')}
+										</h2>
 									</td>
 									<td className="p-2">
 										<div className="flex justify-center p-2">
-											{/* <button
-												className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
-												onClick={handleEditEntryProduct}
-											>
-												<PencilAltIcon className="h-5" />
-											</button> */}
 											<button
 												className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
 												onClick={() => handleDeleteEntryProduct(entry.id)}

@@ -9,7 +9,7 @@ import { TableServiceProducts } from '../../components/Service/serviceDetail/Tab
 import { fetchSinToken } from '../../helpers/fetch'
 import { useDispatch, useSelector } from 'react-redux'
 import { serviceClearActive, serviceSetActive, serviceStartDelete } from '../../actions/service'
-import { productClearData, productSetData } from '../../actions/product'
+import { productStockClearData, productStockSetData } from '../../actions/productStock'
 
 export async function getServerSideProps(context) {
 	// TODO: Verify if this product exist
@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
 	const resp = await fetchSinToken(`service/${pid}`);
 	const initialState = await resp.json();
 
-	const product = await fetchSinToken('product');
+	const product = await fetchSinToken('product/product_stock');
 	const products = await product.json();
 
 	return {
@@ -35,10 +35,10 @@ const Service = ({ initialState, products }) => {
 
 	useEffect(() => {
 		dispatch(serviceSetActive(initialState))
-		dispatch(productSetData(products))
+		dispatch(productStockSetData(products))
 		return () => {
 			dispatch(serviceClearActive())
-			dispatch(productClearData())
+			dispatch(productStockClearData())
 		}
 	}, [dispatch, initialState, products])
 

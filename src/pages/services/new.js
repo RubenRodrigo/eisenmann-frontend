@@ -47,7 +47,7 @@ const NewService = () => {
 
 	const handleSubmitForm = (data) => {
 		console.log(data)
-		// dispatch(serviceStartAddNew(data, router));
+		dispatch(serviceStartAddNew(data, router));
 	}
 
 

@@ -3,7 +3,7 @@ import { useRouter } from 'next/dist/client/router'
 
 import { ArrowLeftIcon } from '@heroicons/react/outline'
 
-import { ProductForm } from '../../../components/Product/productForm/ProductForm'
+import { ProductForm } from '../../../components/Product/Form/ProductForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { productClearActive, productSetActive, productStartUpdate } from '../../../actions/product'
 import { fetchSinToken } from '../../../helpers/fetch'
@@ -13,27 +13,27 @@ import { unitClearData, unitSetData } from '../../../actions/unit'
 export async function getServerSideProps(context) {
 	const { pid } = context.params
 
-	const resp = await fetchSinToken(`product/${pid}`);
+	const productFetch = await fetchSinToken(`product/${pid}`);
 	const type = await fetchSinToken('product/type');
 	const unit = await fetchSinToken('product/unit');
 
-	const initialState = await resp.json();
+	const productData = await productFetch.json();
 	const units = await unit.json();
 	const types = await type.json();
 
 	return {
-		props: { initialState, types, units }
+		props: { productData, types, units }
 	}
 }
 
-const ProductEdit = ({ initialState, types, units }) => {
+const EditProduct = ({ productData, types, units }) => {
 
 	const dispatch = useDispatch()
 	const router = useRouter()
 	const { pid } = router.query
 
 	useEffect(() => {
-		dispatch(productSetActive(initialState))
+		dispatch(productSetActive(productData))
 
 		dispatch(typeSetData(types))
 		dispatch(unitSetData(units))
@@ -44,7 +44,7 @@ const ProductEdit = ({ initialState, types, units }) => {
 			dispatch(typeClearData())
 			dispatch(unitClearData())
 		}
-	}, [dispatch, initialState, types, units])
+	}, [dispatch, productData, types, units])
 
 	const { product, loading } = useSelector(state => state.productActive)
 
@@ -99,5 +99,5 @@ const Navigation = ({ pid, router }) => {
 	)
 }
 
-export default ProductEdit
+export default EditProduct
 
