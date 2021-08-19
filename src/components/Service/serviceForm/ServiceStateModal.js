@@ -4,7 +4,6 @@ import Modal from '../../Modal/Modal'
 
 export const ServiceStateModal = ({ open, setOpen, handleSubmitForm }) => {
 
-
 	return (
 		<div>
 			<Modal open={open} setOpen={setOpen} >

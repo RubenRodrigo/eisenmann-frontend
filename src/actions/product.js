@@ -13,6 +13,7 @@ export const productStartLoadingData = () => {
 			dispatch(productSetData(body))
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 
@@ -24,8 +25,8 @@ export const productStartCreate = (product, router) => {
 		try {
 
 			const resp = await fetchSinToken('product/', product, 'POST');
+			const body = await resp.json();
 			if (resp.ok) {
-				const body = await resp.json();
 				dispatch(productAddNew(body))
 				Swal.fire(
 					'Creado!',
@@ -34,6 +35,7 @@ export const productStartCreate = (product, router) => {
 				)
 				router.push('/products')
 			} else {
+				console.log(body);
 				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			}
 
@@ -48,8 +50,8 @@ export const productStartUpdate = (product, router) => {
 
 		try {
 			const resp = await fetchSinToken(`product/${product.id}/`, product, 'PUT');
+			const body = await resp.json();
 			if (resp.ok) {
-				const body = await resp.json();
 				dispatch(productUpdated(body))
 				Swal.fire(
 					'Actualizado!',
@@ -58,6 +60,7 @@ export const productStartUpdate = (product, router) => {
 				)
 				router.push('/products')
 			} else {
+				console.log(body);
 				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			}
 

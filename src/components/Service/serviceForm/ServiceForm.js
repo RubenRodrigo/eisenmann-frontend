@@ -6,9 +6,12 @@ import { BriefcaseIcon, CashIcon, KeyIcon, UsersIcon } from '@heroicons/react/ou
 import { TextField } from '../../ui/TextField'
 import { TextArea } from '../../ui/TextArea'
 import { Switch } from '@headlessui/react'
+import { Select } from '../../ui/Select'
+import { useSelector } from 'react-redux'
 
 export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 
+	const { clients } = useSelector(state => state.clientList)
 	const { register, handleSubmit, setValue, control, formState: { errors } } = useForm();
 
 	useEffect(() => {
@@ -53,16 +56,29 @@ export const ServiceForm = ({ handleSubmitForm, initialValues }) => {
 				</div>
 				<div className="col-span-1">
 					<label className="mb-2 block text-md text-gray-600">Cliente</label>
-					<TextField
-						type="text"
-						placeholder="Cliente"
+					<Select
 						name="client"
 						register={register}
 						required
 						error={errors.client}
 					>
-						<UsersIcon className="h-5 self-center pl-2" />
-					</TextField>
+						<option
+							value={0}
+							disabled
+						>
+							Selecciona una opcion
+						</option>
+						{
+							clients.map((client, index) => (
+								<option
+									key={client.id}
+									value={client.id}
+								>
+									{client.name}
+								</option>
+							))
+						}
+					</Select>
 					{errors.client && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 				</div>
 				<div className="col-span-1">

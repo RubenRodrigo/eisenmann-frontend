@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Error from 'next/error'
 import { useRouter } from 'next/dist/client/router'
 import { useDispatch } from 'react-redux'
 
 import { ArrowLeftIcon } from '@heroicons/react/outline'
-import moment from 'moment'
 
 import { ServiceForm } from '../../components/Service/serviceForm/ServiceForm'
-import { serviceStartAddNew } from '../../actions/service'
+import { serviceStartCreate } from '../../actions/service'
+import { clientClearData, clientSetData } from '../../actions/client'
+import { fetchSinToken } from '../../helpers/fetch'
 
 const Navigation = ({ router }) => {
 
@@ -30,15 +32,39 @@ const Navigation = ({ router }) => {
 	)
 }
 
-const NewService = () => {
+export async function getServerSideProps() {
+	// TODO: Verify if this service exist
+
+	try {
+		const resp = await fetchSinToken('client');
+		const errorCode = resp.ok ? false : resp.statusCode
+		const clients = await resp.json();
+		return {
+			props: { errorCode: errorCode, clients: clients }
+		}
+	} catch (e) {
+		console.log(e);
+		return {
+			props: { errorCode: 500, clients: [] }
+		}
+	}
+
+}
+const NewService = ({ errorCode, clients }) => {
 
 	const dispatch = useDispatch()
-
 	const router = useRouter()
+
+	useEffect(() => {
+		dispatch(clientSetData(clients))
+		return () => {
+			dispatch(clientClearData())
+		}
+	}, [dispatch, clients])
 
 	const initialValues = {
 		name: 'Nombre',
-		client: '1',
+		client: '0',
 		code: '516156',
 		estimated_price: '152',
 		observations: 'ff',
@@ -47,9 +73,12 @@ const NewService = () => {
 
 	const handleSubmitForm = (data) => {
 		console.log(data)
-		dispatch(serviceStartAddNew(data, router));
+		dispatch(serviceStartCreate(data, router));
 	}
 
+	if (errorCode) {
+		return <Error statusCode={errorCode} />
+	}
 
 	return (
 		<>

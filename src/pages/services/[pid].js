@@ -10,23 +10,31 @@ import { fetchSinToken } from '../../helpers/fetch'
 import { useDispatch, useSelector } from 'react-redux'
 import { serviceClearActive, serviceSetActive, serviceStartDelete } from '../../actions/service'
 import { productStockClearData, productStockSetData } from '../../actions/productStock'
+import Error from 'next/error'
 
 export async function getServerSideProps(context) {
-	// TODO: Verify if this product exist
-	const { pid } = context.params
+	try {
+		const { pid } = context.params
+		const resp = await fetchSinToken(`service/${pid}`);
+		const initialState = await resp.json();
+		const errorCode = resp.ok ? false : res.statusCode
 
-	const resp = await fetchSinToken(`service/${pid}`);
-	const initialState = await resp.json();
+		const product = await fetchSinToken('product/product_stock');
+		const products = await product.json();
 
-	const product = await fetchSinToken('product/product_stock');
-	const products = await product.json();
-
-	return {
-		props: { initialState, products }
+		return {
+			props: { errorCode: errorCode, initialState, products }
+		}
+	} catch (e) {
+		console.log(e);
+		return {
+			props: { errorCode: 500, initialState: {}, products: [] }
+		}
 	}
+
 }
 
-const Service = ({ initialState, products }) => {
+const Service = ({ errorCode, initialState, products }) => {
 	const router = useRouter()
 	const { pid } = router.query
 
@@ -48,6 +56,10 @@ const Service = ({ initialState, products }) => {
 
 	const handleReport = () => {
 		console.log('Report');
+	}
+
+	if (errorCode) {
+		return <Error statusCode={errorCode} />
 	}
 
 	return (

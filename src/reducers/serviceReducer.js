@@ -34,33 +34,6 @@ export const serviceActive = (state = { service: {}, loading: true }, action) =>
 		case types.serviceClearActive:
 			return { service: {}, loading: true }
 
-		case types.serviceAddProduct:
-			return {
-				...state,
-				service: {
-					...state.service,
-					service_products: [...state.service.service_products, action.payload]
-				}
-			}
-
-		case types.serviceUpdateProduct:
-			return {
-				...state,
-				service: {
-					...state.service,
-					service_products: state.service.service_products.map((e) => (e.id === action.payload.id) ? action.payload : e)
-				}
-			}
-
-		case types.serviceDeleteProduct:
-			return {
-				...state,
-				service: {
-					...state.service,
-					service_products: state.service.service_products.filter((e) => (e.id !== action.payload))
-				}
-			}
-
 
 		default:
 			return state
@@ -72,6 +45,22 @@ export const serviceCreated = (state = { service: {}, loading: true }, action) =
 	switch (action.type) {
 
 		case types.serviceAddNew:
+			return {
+				...state,
+				loading: false,
+				service: action.payload
+			}
+
+		default:
+			return state
+	}
+}
+
+export const serviceUpdated = (state = { service: {}, loading: true }, action) => {
+
+	switch (action.type) {
+
+		case types.serviceUpdated:
 			return {
 				...state,
 				loading: false,

@@ -7,27 +7,29 @@ import { TableService } from '../../components/Service/serviceTable/TableService
 import { serviceClearData, serviceSetData } from '../../actions/service'
 import { useDispatch } from 'react-redux'
 import { fetchSinToken } from '../../helpers/fetch'
+import Error from 'next/error'
 
 export async function getServerSideProps() {
 	// TODO: Verify if this service exist
 
 	try {
 		const resp = await fetchSinToken('service');
+		const errorCode = resp.ok ? false : res.statusCode
 		const initialState = await resp.json();
 		return {
-			props: { initialState }
+			props: { errorCode: errorCode, initialState: initialState }
 		}
 	} catch (e) {
 		console.log(e);
 		return {
-			props: { initialState: [] }
-		}
+			props: { errorCode: 500, initialState: [] }
 
+		}
 	}
 
 }
 
-const Service = ({ initialState }) => {
+const Service = ({ errorCode, initialState }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -37,6 +39,9 @@ const Service = ({ initialState }) => {
 		}
 	}, [dispatch, initialState])
 
+	if (errorCode) {
+		return <Error statusCode={errorCode} />
+	}
 	return (
 		<>
 			<Navigation />

@@ -1,14 +1,13 @@
 import { useRouter } from 'next/dist/client/router'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { serviceStartUpdate } from '../../../actions/service'
+import { serviceStartUpdateState } from '../../../actions/service'
 import { ServiceStateModal } from '../serviceForm/ServiceStateModal'
 
 export const InfoService = ({ handleDelete, handleReport }) => {
 
 	const dispatch = useDispatch()
 	const { service } = useSelector(state => state.serviceActive)
-	const router = useRouter()
 	const {
 		name,
 		client_detail,
@@ -27,7 +26,7 @@ export const InfoService = ({ handleDelete, handleReport }) => {
 	const handleSubmitForm = (data) => {
 		if (data.state !== state) {
 			data.id = service.id
-			dispatch(serviceStartUpdate(data, router));
+			dispatch(serviceStartUpdateState(data));
 		}
 		setOpen(false)
 	}

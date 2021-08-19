@@ -2,9 +2,11 @@ export const types = {
 
 	// SERVICES
 	serviceSetData: '[service] Set services',
+	serviceClearData: '[service] Clear services',
+
 	serviceAddNew: '[service] Add new service',
 	serviceDeleted: '[service] Delete service',
-	serviceClearData: '[service] Clear services',
+	serviceUpdated: '[service] Update service',
 
 	serviceSetActive: '[service] Set active service',
 	serviceClearActive: '[service] Clear active service',
@@ -44,8 +46,12 @@ export const types = {
 	unitClearData: '[unit] Clear units',
 
 	// CLIENTS
+	clientSetData: '[client] Set clients',
+	clientClearData: '[client] Clear clients',
 
 	// EMPLOYEES
+	employeeSetData: '[employee] Set employees',
+	employeeClearData: '[employee] Clear employees',
 
 	// UI
 	uiOpenProductStockModal: '[UI] Open Product Stock Modal',

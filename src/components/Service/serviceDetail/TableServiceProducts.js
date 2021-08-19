@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 import { PencilAltIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
-import { serviceStartAddProduct, serviceStartDeleteProduct, serviceStartUpdateProduct } from '../../../actions/service'
+import { serviceStartAddProduct, serviceStartDeleteProduct, serviceStartUpdateProduct } from '../../../actions/serviceProduct'
 import { ServiceProductModal } from '../serviceForm/ServiceProductModal'
-import { productStartLoadingData } from '../../../actions/product'
+import { productStockStartLoadingData } from '../../../actions/productStock'
 
 export const TableServiceProducts = () => {
 
@@ -38,7 +38,7 @@ export const TableServiceProducts = () => {
 	}
 
 	const handleDeleteProduct = (serviceProductId) => {
-		dispatch(serviceStartDeleteProduct(serviceProductId))
+		dispatch(serviceStartDeleteProduct(id, serviceProductId))
 	}
 
 	const handleSubmitForm = (data) => {
@@ -51,7 +51,6 @@ export const TableServiceProducts = () => {
 			dispatch(serviceStartAddProduct(data))
 		}
 		setOpen(false)
-		dispatch(productStartLoadingData())
 	}
 
 

@@ -7,29 +7,46 @@ import { serviceAddNew, serviceClearActive, serviceSetActive, serviceStartUpdate
 import { useSelector } from 'react-redux'
 import { ServiceForm } from '../../../components/Service/serviceForm/ServiceForm'
 import { fetchSinToken } from '../../../helpers/fetch'
+import { clientClearData, clientSetData } from '../../../actions/client'
+import Error from 'next/error'
 
 export async function getServerSideProps(context) {
-	// TODO: Verify if this service exist
-	const { pid } = context.params
+	try {
+		const { pid } = context.params
 
-	const resp = await fetchSinToken(`service/${pid}`);
-	const initialState = await resp.json();
-	return {
-		props: { initialState }
+		const serviceFetch = await fetchSinToken(`service/${pid}`);
+		const errorCode = serviceFetch.ok ? false : res.statusCode
+		const client = await fetchSinToken('client');
+
+		const serviceData = await serviceFetch.json();
+		const clients = await client.json();
+
+		return {
+			props: { errorCode: errorCode, serviceData: serviceData, clients: clients }
+		}
+
+	} catch (e) {
+		console.log(e);
+		return {
+			props: { errorCode: 500, serviceData: {}, clients: [] }
+		}
 	}
+
 }
 
-const ServiceEdit = ({ initialState }) => {
+const ServiceEdit = ({ errorCode, serviceData, clients }) => {
 
 	const dispatch = useDispatch()
 	const router = useRouter()
 
 	useEffect(() => {
-		dispatch(serviceSetActive(initialState))
+		dispatch(serviceSetActive(serviceData))
+		dispatch(clientSetData(clients))
 		return () => {
 			dispatch(serviceClearActive())
+			dispatch(clientClearData())
 		}
-	}, [dispatch, initialState])
+	}, [dispatch, serviceData, clients])
 
 	const { service, loading } = useSelector(state => state.serviceActive)
 	const initialValues = {
@@ -45,6 +62,10 @@ const ServiceEdit = ({ initialState }) => {
 	const handleSubmitForm = (data) => {
 		data.id = service.id
 		dispatch(serviceStartUpdate(data, router));
+	}
+
+	if (errorCode) {
+		return <Error statusCode={errorCode} />
 	}
 
 	return (

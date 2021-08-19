@@ -3,17 +3,18 @@ import Swal from "sweetalert2";
 import { fetchSinToken } from "../helpers/fetch";
 import { types } from "../types/types";
 
-export const productStockStartLoadingData = (year, month) => {
+export const productStockStartLoadingData = (date = "") => {
 	return async (dispatch) => {
 
 		try {
 
-			const resp = await fetchSinToken(`product/product_stock/?year=${year}&month=${month}`);
+			const resp = await fetchSinToken(`product/product_stock/${date !== "" ? date : ''}`);
 			const body = await resp.json();
 
 			dispatch(productStockSetData(body))
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 
@@ -35,6 +36,7 @@ export const productStockStartLoad = (id, type = "DETAIL") => {
 			}
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 
@@ -106,10 +108,7 @@ export const productStockNextMonth = (product) => {
 			const body = await resp.json();
 
 			if (resp.ok) {
-
-				const year = moment().year();
-				const month = moment().month() + 1;
-				dispatch(productStockStartLoadingData(year, month))
+				dispatch(productStockStartLoadingData())
 			} else {
 				Swal.fire('Error', body.prev_stock?.prev, 'error')
 			}
@@ -128,7 +127,11 @@ export const productStockStartDelete = (id) => {
 				title: '¿Estas seguro?',
 				text: 'Al eliminar este Stock de producto se eliminara todas las referencias que tiene en los servicios.',
 				icon: 'warning',
-				showCancelButton: true,
+				confirmButtonColor: '#d33',
+				confirmButtonText: 'Entendido',
+				focusConfirm: false,
+				focusCancel: true,
+				showCancelButton: true
 			}).then(async (result) => {
 
 				if (result.isConfirmed) {

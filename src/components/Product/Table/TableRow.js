@@ -55,7 +55,7 @@ export const TableRow = ({ currentProduct }) => {
 				<div className="flex justify-center p-2">
 					<button
 						className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
-						onClick={() => router.push({ pathname: '/product-stock/[pid]', query: { pid: currentProduct.id } })}
+						onClick={() => router.push({ pathname: '/products/[pid]', query: { pid: currentProduct.id } })}
 					>
 						<ArrowRightIcon className="h-5" />
 					</button>

@@ -5,24 +5,23 @@ import { ArrowLeftIcon } from '@heroicons/react/outline'
 
 import { fetchSinToken } from '../../helpers/fetch'
 import { useDispatch, useSelector } from 'react-redux'
-import { productStockClearActive, productStockSetActive } from '../../actions/productStock'
 
 // Components
-import { ProductEntryTable } from '../../components/ProductStock/Detail/ProductEntryTable'
-import ProductInfo from '../../components/ProductStock/Detail/ProductInfo'
+import { ProductStockTable } from '../../components/Product/Detail/ProductStockTable'
+import { ProductInfo } from '../../components/Product/Detail/ProductInfo'
+import { productClearActive, productSetActive } from '../../actions/product'
 
 export async function getServerSideProps(context) {
 	const { pid } = context.params
 
 	try {
-		const resp = await fetchSinToken(`product/product_stock/${pid}`);
+		const resp = await fetchSinToken(`product/${pid}`);
 		const initialState = await resp.json();
 		return {
 			props: { initialState }
 		}
 
 	} catch (error) {
-		console.log(error);
 		return {
 			props: { initialState: {} }
 		}
@@ -37,15 +36,15 @@ const Product = ({ initialState }) => {
 	const { pid } = router.query
 
 	useEffect(() => {
-		dispatch(productStockSetActive(initialState))
+		dispatch(productSetActive(initialState))
 
 		return () => {
-			dispatch(productStockClearActive())
+			dispatch(productClearActive())
 		}
 
 	}, [dispatch, initialState])
 
-	const { loading } = useSelector(state => state.productStockActive)
+	const { loading } = useSelector(state => state.productActive)
 
 	return (
 		<>
@@ -54,7 +53,7 @@ const Product = ({ initialState }) => {
 				(!loading) &&
 				<>
 					<ProductInfo />
-					<ProductEntryTable />
+					<ProductStockTable />
 				</>
 			}
 		</>

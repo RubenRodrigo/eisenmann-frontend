@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
 import { fetchSinToken } from "../helpers/fetch";
 import { types } from "../types/types";
-import { productStartLoadingData } from "./product";
 
 /* Async functions */
 
@@ -17,6 +16,7 @@ export const serviceStartLoadingData = () => {
 			dispatch(serviceSetData(body))
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 
@@ -34,22 +34,35 @@ export const serviceStartLoad = (id) => {
 			dispatch(serviceSetActive(body))
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 
 	}
 }
 
-export const serviceStartAddNew = (service, router) => {
+export const serviceStartCreate = (service, router) => {
 	return async (dispatch) => {
 		try {
 
 			const resp = await fetchSinToken('service/', service, 'POST');
 			const body = await resp.json();
-			dispatch(serviceAddNew(body))
-			router.push('/services')
+
+			if (resp.ok) {
+				dispatch(serviceAddNew(body))
+				Swal.fire(
+					'Creado!',
+					'Se ha creado el servicio con exito.',
+					'success'
+				)
+				router.push('/services')
+			} else {
+				console.log(body);
+				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+			}
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 	}
@@ -62,10 +75,47 @@ export const serviceStartUpdate = (service, router) => {
 			const resp = await fetchSinToken(`service/${service.id}/`, service, 'PUT');
 			const body = await resp.json();
 
-			dispatch(serviceAddNew(body))
-			router.push('/services')
+			if (resp.ok) {
+				dispatch(serviceUpdated(body))
+				Swal.fire(
+					'Actualizado!',
+					'Se ha actualizado el servicio con exito.',
+					'success'
+				)
+				router.push('/services')
+			} else {
+				console.log(body);
+				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+			}
 
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+			console.log(error)
+		}
+
+	}
+}
+
+export const serviceStartUpdateState = (service) => {
+	return async (dispatch) => {
+
+		try {
+			const resp = await fetchSinToken(`service/${service.id}/`, service, 'PUT');
+			const body = await resp.json();
+			if (resp.ok) {
+				dispatch(serviceSetActive(body))
+				Swal.fire(
+					'Actualizado!',
+					'Se ha actualizado el servicio con exito.',
+					'success'
+				)
+			} else {
+				console.log(body);
+				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+			}
+
+		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error)
 		}
 
@@ -77,73 +127,42 @@ export const serviceStartDelete = (id, router) => {
 		const { service } = getState().serviceActive
 		try {
 
-			await fetchSinToken(`service/${id}/`, '', 'DELETE');
-			router.push('/services')
-			dispatch(serviceDeleted(service))
-			dispatch(serviceClearActive())
+			Swal.fire({
+				title: '¿Estas seguro?',
+				text: 'Se eliminara este servicio',
+				icon: 'warning',
+				confirmButtonColor: '#d33',
+				confirmButtonText: 'Entendido',
+				focusConfirm: false,
+				focusCancel: true,
+				showCancelButton: true
+			}).then(async (result) => {
 
+				if (result.isConfirmed) {
+					const resp = await fetchSinToken(`service/${id}/`, '', 'DELETE');
+					if (resp.ok) {
+						dispatch(serviceDeleted(service))
+						dispatch(serviceClearActive())
+						Swal.fire(
+							'Eliminado!',
+							'Se ha eliminado con exito.',
+							'success'
+						)
+						router.push('/services')
+					} else {
+						Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
+					}
+				}
+
+			})
 		} catch (error) {
+			Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			console.log(error);
 		}
 	}
 }
 
-// Service Product
-export const serviceStartAddProduct = (product) => {
-	return async (dispatch) => {
 
-		try {
-
-			const resp = await fetchSinToken(`service/service_product/`, product, 'POST');
-			const body = await resp.json();
-
-			if (resp.ok) {
-				dispatch(serviceStartLoad(body.service))
-			} else {
-				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
-			}
-
-		} catch (error) {
-			console.log(error);
-		}
-	}
-}
-
-export const serviceStartUpdateProduct = (product) => {
-	return async (dispatch) => {
-
-		try {
-
-			const resp = await fetchSinToken(`service/service_product/${product.id}/`, product, 'PUT');
-			const body = await resp.json();
-
-			if (resp.ok) {
-				dispatch(serviceStartLoad(body.service))
-			} else {
-				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
-			}
-
-		} catch (error) {
-			console.log(error)
-		}
-	}
-}
-
-export const serviceStartDeleteProduct = (id) => {
-	return async (dispatch) => {
-		try {
-			const resp = await fetchSinToken(`service/service_product/${id}`, '', 'DELETE');
-
-			if (resp.ok) {
-				dispatch(serviceDeleteProduct(id))
-				dispatch(productStartLoadingData())
-			}
-		} catch (error) {
-			console.log(error);
-		}
-
-	}
-}
 
 /* Action functions */
 export const serviceSetData = (services) => ({
@@ -154,6 +173,16 @@ export const serviceSetData = (services) => ({
 export const serviceClearData = () => ({
 	type: types.serviceClearData,
 });
+
+export const serviceAddNew = (service) => ({
+	type: types.serviceAddNew,
+	payload: service
+})
+
+export const serviceUpdated = (service) => ({
+	type: types.serviceUpdated,
+	payload: service
+})
 
 export const serviceDeleted = (service) => ({
 	type: types.serviceDeleted,
@@ -168,24 +197,3 @@ export const serviceSetActive = (service) => ({
 export const serviceClearActive = () => ({
 	type: types.serviceClearActive,
 });
-
-export const serviceAddProduct = (product) => ({
-	type: types.serviceAddProduct,
-	payload: product
-});
-
-
-export const serviceUpdateProduct = (product) => ({
-	type: types.serviceUpdateProduct,
-	payload: product
-});
-
-export const serviceDeleteProduct = (id) => ({
-	type: types.serviceDeleteProduct,
-	payload: id
-});
-
-export const serviceAddNew = (service) => ({
-	type: types.serviceAddNew,
-	payload: service
-})

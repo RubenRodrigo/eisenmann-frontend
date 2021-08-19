@@ -9,7 +9,7 @@ export const Calendar = () => {
 
 	const handleChangeCalendar = (data) => {
 		const date = moment(data.value, 'mm/dd/yyyy')
-		dispatch(productStockStartLoadingData(date.year(), date.month() + 1))
+		dispatch(productStockStartLoadingData(`?year=${date.year()}&month=${date.month() + 1}`))
 	}
 
 	return (
