@@ -107,7 +107,7 @@ export const ProductEntryTable = () => {
 										{entry.init_stock}
 									</td>
 									<td className="text-left p-2">
-										{entry.total_cost}
+										S/. {entry.total_cost}
 									</td>
 									<td className="text-left p-2">
 										{entry.stock}

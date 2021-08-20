@@ -34,3 +34,37 @@ export const uiCalendarReducer = (state = { open: false }, action) => {
 			return state;
 	}
 }
+
+export const uiClientModalReducer = (state = { open: false }, action) => {
+	switch (action.type) {
+		case types.uiOpenClientModal:
+			return {
+				...state,
+				open: true
+			}
+		case types.uiCloseClientModal:
+			return {
+				...state,
+				open: false
+			}
+		default:
+			return state;
+	}
+}
+
+export const uiEmployeeModalReducer = (state = { open: false }, action) => {
+	switch (action.type) {
+		case types.uiOpenEmployeeModal:
+			return {
+				...state,
+				open: true
+			}
+		case types.uiCloseEmployeeModal:
+			return {
+				...state,
+				open: false
+			}
+		default:
+			return state;
+	}
+}

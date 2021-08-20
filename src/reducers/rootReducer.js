@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import { clientList } from "./clientReducer";
-import { employeeList } from "./employeeReducer";
+import { clientActive, clientList } from "./clientReducer";
+import { employeeActive, employeeList } from "./employeeReducer";
 import { productActive, productList } from "./productReducer";
 import { productStockActive, productStockList } from "./productStockReducer";
 import { serviceActive, serviceCreated, serviceDeleted, serviceList, serviceUpdated } from "./serviceReducer";
 import { typeList } from "./typeReducer";
 import { unitList } from "./unitReducer";
-import { uiCalendarReducer, uiProductStockModalReducer } from "./uiReducer";
+import { uiCalendarReducer, uiClientModalReducer, uiEmployeeModalReducer, uiProductStockModalReducer } from "./uiReducer";
 
 // COMBINED REDUCERS
 const reducers = {
@@ -26,9 +26,14 @@ const reducers = {
 	unitList: unitList,
 
 	clientList: clientList,
+	clientActive: clientActive,
+
 	employeeList: employeeList,
+	employeeActive: employeeActive,
 
 	uiProductStockModal: uiProductStockModalReducer,
+	uiClientModal: uiClientModalReducer,
+	uiEmployeeModal: uiEmployeeModalReducer,
 	uiCalendar: uiCalendarReducer
 }
 

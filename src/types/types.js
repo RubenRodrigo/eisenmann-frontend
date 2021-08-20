@@ -48,16 +48,34 @@ export const types = {
 	// CLIENTS
 	clientSetData: '[client] Set clients',
 	clientClearData: '[client] Clear clients',
+	clientAddNew: '[client] Add new client',
+	clientDeleted: '[client] Delete client',
+	clientUpdated: '[client] Update client',
+
+	clientSetActive: '[client] Set active client',
+	clientClearActive: '[client] Clear active client',
 
 	// EMPLOYEES
 	employeeSetData: '[employee] Set employees',
 	employeeClearData: '[employee] Clear employees',
+	employeeAddNew: '[employee] Add new employee',
+	employeeDeleted: '[employee] Delete employee',
+	employeeUpdated: '[employee] Update employee',
+
+	employeeSetActive: '[employee] Set active employee',
+	employeeClearActive: '[employee] Clear active employee',
 
 	// UI
 	uiOpenProductStockModal: '[UI] Open Product Stock Modal',
 	uiCloseProductStockModal: '[UI] Close Product Stock Modal',
 
 	uiOpenCalendar: '[UI] Open Calendar',
-	uiCloseCalendar: '[UI] Close Calendar'
+	uiCloseCalendar: '[UI] Close Calendar',
+
+	uiOpenClientModal: '[UI] Open Client Modal',
+	uiCloseClientModal: '[UI] Close Client Modal',
+
+	uiOpenEmployeeModal: '[UI] Open Employee Modal',
+	uiCloseEmployeeModal: '[UI] Close Employee Modal',
 
 }

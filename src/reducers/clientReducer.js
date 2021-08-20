@@ -10,6 +10,24 @@ export const clientList = (state = { clients: [] }, action) => {
 				clients: [...action.payload]
 			}
 
+		case types.clientAddNew:
+			return {
+				...state,
+				clients: [action.payload, ...state.clients]
+			}
+
+		case types.clientDeleted:
+			return {
+				...state,
+				clients: state.clients.filter(e => e.id !== action.payload)
+			}
+
+		case types.clientUpdated:
+			return {
+				...state,
+				clients: state.clients.map((e) => (e.id === action.payload.id) ? action.payload : e)
+			}
+
 		case types.clientClearData:
 			return { clients: [] }
 
@@ -18,3 +36,24 @@ export const clientList = (state = { clients: [] }, action) => {
 
 	}
 }
+
+export const clientActive = (state = { client: null, loading: true }, action) => {
+
+	switch (action.type) {
+
+		case types.clientSetActive:
+			return {
+				...state,
+				loading: false,
+				client: action.payload
+			}
+
+		case types.clientClearActive:
+			return { client: null, loading: true }
+
+		default:
+			return state
+
+	}
+}
+

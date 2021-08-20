@@ -62,9 +62,6 @@ const ProductsStock = ({ initialState }) => {
 const Navigation = () => {
 	const dispatch = useDispatch()
 
-	const [open, setOpen] = useState(false)
-	const [formValues, setFormValues] = useState({ product: 0 })
-
 	// Set current product to state. This is to set data in modal
 	const handleOpenModal = () => {
 		dispatch(uiOpenProductStockModal())
@@ -79,9 +76,7 @@ const Navigation = () => {
 	return (
 		<div className="flex justify-between">
 			<ProductStockModalForm
-				open={open}
-				setOpen={setOpen}
-				initialValues={formValues}
+				initialValues={{ product: 0 }}
 				handleSubmitForm={handleSubmitModalForm}
 			/>
 			<div>

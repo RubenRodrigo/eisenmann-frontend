@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { uiCloseProductStockModal } from '../../../actions/ui'
 import { productClearData, productStartLoadingData } from '../../../actions/product'
 
-export const ProductStockModalForm = ({ open, setOpen, initialValues, handleSubmitForm }) => {
+export const ProductStockModalForm = ({ initialValues, handleSubmitForm }) => {
 
 	const dispatch = useDispatch()
 	const { modalOpen } = useSelector(state => state.uiProductStockModal)

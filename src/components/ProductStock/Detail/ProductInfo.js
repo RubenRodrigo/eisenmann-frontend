@@ -16,6 +16,9 @@ const ProductInfo = () => {
 		init_stock,
 		total_stock,
 		real_stock,
+		total_stock_entries,
+		total_stock_price,
+		difference_stock,
 		current_price,
 	} = productStock
 
@@ -54,22 +57,77 @@ const ProductInfo = () => {
 						</h3>
 					</div>
 					<div className="p-2">
-						<div className="flex p-2 gap-x-2">
-							<h3 className="font-bold self-center">Stock Inicial:</h3>
-							<Stock value={init_stock} />
+						<div className="mt-4 border border-gray-300 rounded-lg py-2">
+							<table className="w-full table-fixed">
+								<thead className="border-b">
+									<tr>
+										<th className="text-left p-2 w-1/3">
+											<h3 className="font-bold">Stock Actual</h3>
+										</th>
+										<th className="text-left p-2 w-1/3">
+											<h3 className="font-bold">Stock Real</h3>
+										</th>
+										<th className="text-left p-2 w-1/3">
+											<h3 className="font-bold">Precio Actual</h3>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr className="hover:bg-gray-50 border-b border-t">
+										<td className="text-left p-2">
+											<Stock value={total_stock} />
+										</td>
+										<td className="text-left p-2">
+											{real_stock}
+										</td>
+										<td className="text-left p-2">
+											S/. {current_price}
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<div className="flex p-2 gap-x-2">
-							<h3 className="font-bold self-center">Stock Actual:</h3>
-							<Stock value={total_stock} />
+
+						<br />
+						<div className="mt-4 border border-gray-300 rounded-lg py-2">
+							<table className="w-full table-fixed">
+								<thead className="border-b">
+									<tr>
+										<th className="text-left p-2 w-1/4">
+											<h3 className="font-bold">Diferencia</h3>
+										</th>
+										<th className="text-left p-2 w-1/4">
+											<h3 className="font-bold">Stock Inicial</h3>
+										</th>
+										<th className="text-left p-2 w-1/4">
+											<h3 className="font-bold">Stock Ingresado</h3>
+										</th>
+										<th className="text-left p-2 w-1/4">
+											<h3 className="font-bold">Precio Total</h3>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr className="hover:bg-gray-50 border-b border-t">
+										<td className="text-left p-2">
+											{difference_stock}
+										</td>
+										<td className="text-left p-2">
+											{init_stock}
+										</td>
+										<td className="text-left p-2">
+											{total_stock_entries}
+										</td>
+										<td className="text-left p-2">
+											S/. {total_stock_price}
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<div className="flex p-2 gap-x-2">
-							<h3 className="font-bold self-center">Stock Real:</h3>
-							<Stock value={real_stock} />
-						</div>
-						<div className="flex p-2">
-							<h3 className="font-bold">Precio Actual:</h3>
-							<p className="ml-2">S/ {current_price}</p>
-						</div>
+						<br />
+						<hr />
+
 						<div className="flex p-2">
 							<h3 className="font-bold">Fecha de Creación:</h3>
 							<div className="ml-2">

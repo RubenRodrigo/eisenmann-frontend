@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { fetchSinToken } from "../helpers/fetch";
 import { types } from "../types/types";
+import { productStockStartLoadingData } from "./productStock";
 import { serviceStartLoad } from "./service";
 
 // Add ServiceProduct and reload service active 
@@ -14,6 +15,7 @@ export const serviceStartAddProduct = (product) => {
 
 			if (resp.ok) {
 				dispatch(serviceStartLoad(body.service))
+				dispatch(productStockStartLoadingData())
 			} else {
 				console.log(body);
 				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
@@ -36,6 +38,7 @@ export const serviceStartUpdateProduct = (product) => {
 
 			if (resp.ok) {
 				dispatch(serviceStartLoad(body.service))
+				dispatch(productStockStartLoadingData())
 			} else {
 				console.log(body);
 				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')

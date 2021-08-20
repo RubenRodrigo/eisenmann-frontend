@@ -4,7 +4,7 @@ import { PencilAltIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { serviceStartAddProduct, serviceStartDeleteProduct, serviceStartUpdateProduct } from '../../../actions/serviceProduct'
 import { ServiceProductModal } from '../serviceForm/ServiceProductModal'
-import { productStockStartLoadingData } from '../../../actions/productStock'
+import { employeeStartLoadingData } from '../../../actions/employee'
 
 export const TableServiceProducts = () => {
 
@@ -19,7 +19,7 @@ export const TableServiceProducts = () => {
 
 	const initialState = {
 		product: 0,
-		employee: 2,
+		employee: 0,
 		description: 'Pintura roja para la puerta',
 		quantity: '2',
 	}
@@ -28,11 +28,13 @@ export const TableServiceProducts = () => {
 	const [formValues, setFormValues] = useState(initialState)
 
 	const handleAddProduct = () => {
+		dispatch(employeeStartLoadingData())
 		setFormValues(initialState)
 		setOpen(true)
 	}
 
 	const handleEditProduct = (ser_product) => {
+		dispatch(employeeStartLoadingData())
 		setFormValues(ser_product)
 		setOpen(true)
 	}

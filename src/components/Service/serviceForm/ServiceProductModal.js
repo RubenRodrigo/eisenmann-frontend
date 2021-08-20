@@ -10,10 +10,11 @@ import { Select } from '../../ui/Select'
 export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmitForm }) => {
 
 	const { productStocks } = useSelector(state => state.productStockList)
+	const { employees } = useSelector(state => state.employeeList)
 	const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
 
-	const watchProduct = watch("product", false); // you can supply default value as second argument
-	const watchQuantity = watch("quantity", false); // you can supply default value as second argument
+	const watchProduct = watch("product", initialValues.product); // you can supply default value as second argument
+	const watchQuantity = watch("quantity", initialValues.quantity); // you can supply default value as second argument
 	const [price, setPrice] = useState(0)
 	const [total, setTotal] = useState(0)
 
@@ -25,9 +26,9 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 	}, [setValue, initialValues])
 
 	useEffect(() => {
-		if (watchProduct && watchQuantity) {
-			if (watchProduct > 0) {
-				const product = productStocks.find(e => e.id == watchProduct)
+		if (initialValues.id) {
+			if (watchQuantity) {
+				const product = productStocks.find(e => e.id == initialValues.product)
 
 				const unitPrice = product.current_price ? product.current_price : 0
 
@@ -39,8 +40,26 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 				setPrice(0)
 				setTotal(0)
 			}
+
+		} else {
+			if (watchProduct && watchQuantity) {
+				console.log(watchProduct);
+				if (watchProduct > 0) {
+					const product = productStocks.find(e => e.id == watchProduct)
+
+					const unitPrice = product.current_price ? product.current_price : 0
+
+					setPrice(unitPrice)
+
+					const totalPrice = parseFloat(unitPrice) * parseFloat(watchQuantity)
+					setTotal(totalPrice)
+				} else {
+					setPrice(0)
+					setTotal(0)
+				}
+			}
 		}
-	}, [productStocks, watchProduct, watchQuantity])
+	}, [initialValues.id, initialValues.product, productStocks, watchProduct, watchQuantity])
 
 	return (
 		<div>
@@ -85,17 +104,29 @@ export const ServiceProductModal = ({ open, setOpen, initialValues, handleSubmit
 							</div>
 							<div className="mb-5">
 								<label className="mb-2 block text-md text-gray-600">Empleado</label>
-								<TextField
-									type="text"
-									placeholder="Empleado"
+								<Select
 									name="employee"
 									register={register}
 									required
-									error={errors.employee}
+									error={errors.empoloyee}
 								>
-									<AnnotationIcon className="h-5 self-center pl-2" />
-								</TextField>
-
+									<option
+										value={0}
+										disabled
+									>
+										Selecciona una opcion
+									</option>
+									{
+										employees.map((employee) => (
+											<option
+												key={employee.id}
+												value={employee.id}
+											>
+												{employee.name}
+											</option>
+										))
+									}
+								</Select>
 								{errors.employee && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 							</div>
 							<div className="mb-5">

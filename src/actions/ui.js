@@ -19,3 +19,23 @@ export const uiCloseCalendar = () => {
 		type: types.uiCloseCalendar,
 	}
 }
+
+export const uiOpenClientModal = () => ({
+	type: types.uiOpenClientModal,
+})
+
+export const uiCloseClientModal = () => {
+	return {
+		type: types.uiCloseClientModal,
+	}
+}
+
+export const uiOpenEmployeeModal = () => ({
+	type: types.uiOpenEmployeeModal,
+})
+
+export const uiCloseEmployeeModal = () => {
+	return {
+		type: types.uiCloseEmployeeModal,
+	}
+}
