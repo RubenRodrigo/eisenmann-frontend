@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const Stock = ({ value }) => {
-	if (value >= 30) {
+export const Stock = ({ value, range = [] }) => {
+	if (value >= range[0]) {
 		return (
 			<span
 				className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full"
@@ -9,7 +9,7 @@ export const Stock = ({ value }) => {
 				{value} en stock
 			</span>
 		)
-	} else if (value >= 15) {
+	} else if (value >= range[1]) {
 		return (
 			<span
 				className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full"

@@ -17,7 +17,7 @@ import { TableProduct } from '../../components/ProductStock/Table/TableProduct'
 export async function getServerSideProps() {
 	// TODO: Verify if this service exist
 
-	const resp = await fetchSinToken('product/product_stock');
+	const resp = await fetchSinToken('product/product_stock_order');
 	const initialState = await resp.json();
 
 	return {

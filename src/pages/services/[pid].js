@@ -78,11 +78,13 @@ const Service = ({ errorCode, initialState, products }) => {
 	)
 }
 
-const Navigation = ({ pid, router }) => {
+const Navigation = ({ router }) => {
+	const { service } = useSelector(state => state.serviceActive)
+
 	return (
 		<div className="flex justify-between">
 			<div>
-				<h1 className="text-3xl	font-semibold mb-4">Servicio {pid}</h1>
+				<h1 className="text-3xl	font-semibold mb-4">Servicio {service.code} </h1>
 				<button
 					onClick={() => router.back()}
 					className="border rounded-lg block border-blue-800 hover:bg-gray-100 transition duration-300 px-3 py-2"
@@ -94,7 +96,7 @@ const Navigation = ({ pid, router }) => {
 				</button>
 			</div>
 			<div>
-				<Link href={`/services/edit/${pid}`}>
+				<Link href={`/services/edit/${service.id}`}>
 					<a className="bg-blue-800 px-3 py-2 rounded-lg block hover:bg-blue-900 transition duration-300">
 						<div className="flex text-white ">
 							<PencilAltIcon className="h-5 w-5 self-center" />

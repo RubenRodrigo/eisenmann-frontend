@@ -1,28 +1,26 @@
 import React from 'react'
 
-import { ArrowRightIcon, TrashIcon } from '@heroicons/react/outline'
+import { ArrowRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/dist/client/router'
 import { useDispatch } from 'react-redux'
 import { Stock } from '../../ui/Stock'
-import { productStockStartDelete } from '../../../actions/productStock'
+import { productStockSetActive, productStockStartDelete } from '../../../actions/productStock'
+import { uiOpenProductStockModal } from '../../../actions/ui'
+import { productStartLoadingData } from '../../../actions/product'
 
 export const TableRow = ({ currentProduct, handleOpenEntryModal, handleOpenRealModal }) => {
 
 	const dispatch = useDispatch()
 	const router = useRouter()
 
-
-	// const handleProductEdit = () => {
-
-	// 	router.push({
-	// 		pathname: '/products/edit/[pid]',
-	// 		query: { pid: currentProduct.id },
-	// 	})
-
-	// }
-
 	const handleProductDelete = () => {
 		dispatch(productStockStartDelete(currentProduct.id))
+	}
+
+	const handleProductStockEdit = () => {
+		dispatch(productStartLoadingData())
+		dispatch(productStockSetActive(currentProduct))
+		dispatch(uiOpenProductStockModal())
 	}
 
 	return (
@@ -46,7 +44,7 @@ export const TableRow = ({ currentProduct, handleOpenEntryModal, handleOpenRealM
 					type="button"
 					onClick={() => handleOpenEntryModal(currentProduct)}
 				>
-					<Stock value={parseInt(currentProduct.total_stock)} />
+					<Stock value={parseInt(currentProduct.total_stock)} range={[currentProduct.medium_value, currentProduct.minium_value]} />
 				</button>
 			</td>
 
@@ -65,17 +63,17 @@ export const TableRow = ({ currentProduct, handleOpenEntryModal, handleOpenRealM
 			<td className="p-2">
 				<div className="flex justify-center p-2">
 					<button
+						onClick={handleProductStockEdit}
+						className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
+					>
+						<PencilAltIcon className="h-5" />
+					</button>
+					<button
 						className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
 						onClick={() => router.push({ pathname: '/product-stock/[pid]', query: { pid: currentProduct.id } })}
 					>
 						<ArrowRightIcon className="h-5" />
 					</button>
-					{/* <button
-						onClick={handleProductEdit}
-						className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
-					>
-						<PencilAltIcon className="h-5" />
-					</button> */}
 					<button
 						onClick={handleProductDelete}
 						className="p-3 hover:bg-gray-100 rounded-full transition duration-300"

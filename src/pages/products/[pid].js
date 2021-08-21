@@ -48,7 +48,7 @@ const Product = ({ initialState }) => {
 
 	return (
 		<>
-			<Navigation pid={pid} router={router} />
+			<Navigation router={router} />
 			{
 				(!loading) &&
 				<>
@@ -60,11 +60,12 @@ const Product = ({ initialState }) => {
 	)
 }
 
-const Navigation = ({ pid, router }) => {
+const Navigation = ({ router }) => {
+	const { product } = useSelector(state => state.productActive)
 	return (
 		<div className="flex justify-between">
 			<div>
-				<h1 className="text-3xl	font-semibold">Producto {pid}</h1>
+				<h1 className="text-3xl	font-semibold">Producto {product.name}</h1>
 			</div>
 			<div>
 				<button

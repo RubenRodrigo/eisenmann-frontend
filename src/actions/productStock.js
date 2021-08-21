@@ -69,7 +69,7 @@ export const productStockStartCreate = (product) => {
 }
 
 // Product Stock Real
-export const productStockStartUpdate = (product) => {
+export const productStockStartUpdate = (product, nextMonth = true) => {
 	return async (dispatch) => {
 
 		try {
@@ -79,17 +79,19 @@ export const productStockStartUpdate = (product) => {
 
 			if (resp.ok) {
 				dispatch(productStockUpdated(body))
-				Swal.fire({
-					title: '¿Quieres crear un nuevo producto stock?',
-					text: 'Se creara un nuevo producto stock para el siguiente mes con el valor real que acabas de ingresar.',
-					icon: 'warning',
-					showCancelButton: true,
-				}).then(async (result) => {
+				if (nextMonth) {
+					Swal.fire({
+						title: '¿Quieres crear un nuevo producto stock?',
+						text: 'Se creara un nuevo producto stock para el siguiente mes con el valor real que acabas de ingresar.',
+						icon: 'warning',
+						showCancelButton: true,
+					}).then(async (result) => {
 
-					if (result.isConfirmed) {
-						dispatch(productStockNextMonth({ prev_stock: product.id }))
-					}
-				})
+						if (result.isConfirmed) {
+							dispatch(productStockNextMonth({ prev_stock: product.id }))
+						}
+					})
+				}
 			} else {
 				Swal.fire('Error', 'Algo salio mal, vuelva a intentar.', 'error')
 			}

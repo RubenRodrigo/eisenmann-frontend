@@ -78,4 +78,8 @@ export const types = {
 	uiOpenEmployeeModal: '[UI] Open Employee Modal',
 	uiCloseEmployeeModal: '[UI] Close Employee Modal',
 
+	// FILTERS
+	productStockFilterByValue: '[productStock] Filter by value',
+	productStockFilterByCode: '[productStock] Filter by code',
+	productStockFilterByName: '[productStock] Filter by name',
 }

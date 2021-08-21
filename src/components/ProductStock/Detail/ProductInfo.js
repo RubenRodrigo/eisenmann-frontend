@@ -20,6 +20,8 @@ const ProductInfo = () => {
 		total_stock_price,
 		difference_stock,
 		current_price,
+		medium_value,
+		minium_value,
 	} = productStock
 
 	return (
@@ -75,7 +77,7 @@ const ProductInfo = () => {
 								<tbody>
 									<tr className="hover:bg-gray-50 border-b border-t">
 										<td className="text-left p-2">
-											<Stock value={total_stock} />
+											<Stock value={total_stock} range={[medium_value, minium_value]} />
 										</td>
 										<td className="text-left p-2">
 											{real_stock}

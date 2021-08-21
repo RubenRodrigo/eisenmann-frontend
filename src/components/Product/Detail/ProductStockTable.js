@@ -2,7 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import moment from 'moment'
-import { PlusIcon, TrashIcon } from '@heroicons/react/outline'
+import { ArrowRightIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
+import Link from 'next/link'
 
 export const ProductStockTable = () => {
 
@@ -26,26 +27,29 @@ export const ProductStockTable = () => {
 				<table className="w-full table-fixed">
 					<thead className="border-b">
 						<tr>
-							<th className="text-left p-2 w-2/6">
+							<th className="text-left p-2 w-1/8">
 								Stock Inicial
 							</th>
-							<th className="text-left p-2 w-1/6">
+							<th className="text-left p-2 w-1/8">
 								Stock Total
 							</th>
-							<th className="text-left p-2 w-1/6">
+							<th className="text-left p-2 w-1/8">
 								Precio total
 							</th>
-							<th className="text-left p-2 w-1/6">
+							<th className="text-left p-2 w-1/8">
 								Stock Total Actual
 							</th>
-							<th className="text-left p-2 w-1/6">
+							<th className="text-left p-2 w-1/8">
 								Stock Real
 							</th>
-							<th className="text-left p-2 w-1/6">
+							<th className="text-left p-2 w-1/8">
 								Diferencia
 							</th>
-							<th className="text-left p-2 w-1/6">
+							<th className="text-left p-2 w-1/8">
 								Fecha de creación
+							</th>
+							<th className="text-left p-2 w-1/8">
+								Acciones
 							</th>
 						</tr>
 					</thead>
@@ -78,6 +82,18 @@ export const ProductStockTable = () => {
 										<h2>
 											{moment(stock.created_at).format('HH:mm')}
 										</h2>
+									</td>
+									<td className="text-left p-2">
+										<Link
+											href={`/product-stock/${stock.id}`}
+										>
+											<a
+												className="p-3 hover:bg-gray-100 rounded-full transition duration-300"
+											>
+												<ArrowRightIcon className="h-5" />
+
+											</a>
+										</Link>
 									</td>
 								</tr>
 							))

@@ -8,7 +8,7 @@ export const TableNav = () => {
 	return (
 		<div className="grid grid-cols-6 gap-6 p-4">
 			<div className="col-span-2">
-				<div
+				{/* <div
 
 					className={`
 						flex p-3 rounded-xl 
@@ -23,10 +23,10 @@ export const TableNav = () => {
 						type="text"
 						placeholder="Busca un producto"
 					/>
-				</div>
+				</div> */}
 			</div>
 			<div className="col-span-2">
-				<div
+				{/* <div
 					className={`
 						flex p-3 rounded-xl 
 						${focusSelect ? 'border-blue-800 border-2' : 'border-gray-400 border hover:border-gray-800'}
@@ -37,11 +37,10 @@ export const TableNav = () => {
 						onBlur={() => setFocusSelect(false)}
 						className="w-full text-lg h-7"
 					>
-						<option value="0">Ultima actualizacion</option>
-						<option value="1">Ultima actualizacion</option>
-						<option value="2">Ultima actualizacion</option>
+						<option value="0">Codigo</option>
+						<option value="1">Nombre</option>
 					</select>
-				</div>
+				</div> */}
 			</div>
 		</div >
 	)

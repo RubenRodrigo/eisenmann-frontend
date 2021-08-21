@@ -7,13 +7,12 @@ import { fetchSinToken } from '../../helpers/fetch';
 
 // Actions
 import {
+	productStockClearActive,
 	productStockClearData,
 	productStockSetData,
-	productStockStartCreate
 } from '../../actions/productStock';
 
 import {
-	uiCloseProductStockModal,
 	uiOpenProductStockModal
 } from '../../actions/ui';
 
@@ -21,6 +20,7 @@ import {
 import { ProductStockModalForm } from '../../components/ProductStock/Form/ProductStockModalForm';
 import { TableProduct } from '../../components/ProductStock/Table/TableProduct'
 import moment from 'moment';
+import { productStartLoadingData } from '../../actions/product';
 
 export async function getServerSideProps() {
 	// TODO: Verify if this service exist
@@ -64,21 +64,14 @@ const Navigation = () => {
 
 	// Set current product to state. This is to set data in modal
 	const handleOpenModal = () => {
+		dispatch(productStartLoadingData())
+		dispatch(productStockClearActive())
 		dispatch(uiOpenProductStockModal())
-	}
-
-	// Save data from modal.
-	const handleSubmitModalForm = (data) => {
-		dispatch(productStockStartCreate(data))
-		dispatch(uiCloseProductStockModal())
 	}
 
 	return (
 		<div className="flex justify-between">
-			<ProductStockModalForm
-				initialValues={{ product: 0 }}
-				handleSubmitForm={handleSubmitModalForm}
-			/>
+			<ProductStockModalForm />
 			<div>
 				<h1 className="text-3xl	font-semibold">Stock de productos</h1>
 			</div>

@@ -10,6 +10,7 @@ import { TableRow } from './TableRow'
 export const TableProduct = () => {
 
 	const dispatch = useDispatch()
+	// const { filteredProducts } = useSelector(state => state.productStockList)
 	const { productStocks } = useSelector(state => state.productStockList)
 
 	const [openEntry, setOpenEntry] = useState(false)

@@ -55,22 +55,22 @@ export const Sidebar = () => {
 					{open &&
 						<>
 							<div className="link-container transition duration-200">
-								<Link href="/products">
+								<Link href="/product-stock">
 									<a>
 										<div className="flex pl-10 p-3">
 											<h3 className="pl-3">
-												Productos
+												Stock de Productos
 											</h3>
 										</div>
 									</a>
 								</Link>
 							</div>
 							<div className="link-container transition duration-200">
-								<Link href="/product-stock">
+								<Link href="/products">
 									<a>
 										<div className="flex pl-10 p-3">
 											<h3 className="pl-3">
-												Stock de Productos
+												Productos
 											</h3>
 										</div>
 									</a>
