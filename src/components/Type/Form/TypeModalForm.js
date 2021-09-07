@@ -4,46 +4,48 @@ import { useForm } from 'react-hook-form'
 
 import { AnnotationIcon } from '@heroicons/react/outline'
 
-import { uiCloseEmployeeModal } from '../../../actions/ui'
+import { uiCloseTypeModal } from '../../../actions/ui'
 
 import Modal from '../../Modal/Modal'
 import { TextField } from '../../ui/TextField'
-import { employeeStartCreate, employeeStartUpdate } from '../../../actions/employee'
+import { typeStartCreate, typeStartUpdate } from '../../../actions/type'
 
-export const EmployeeModalForm = () => {
+export const TypeModalForm = () => {
 
 	const dispatch = useDispatch()
-	const { open } = useSelector(state => state.uiEmployeeModal)
-	const { employee } = useSelector(state => state.employeeActive)
+	const { open } = useSelector(state => state.uiTypeModal)
+	const { type } = useSelector(state => state.typeActive)
 
 	const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
 	useEffect(() => {
-		if (employee) {
-			setValue('name', employee.name, { shouldValidate: true })
+		if (type) {
+			setValue('name', type.name, { shouldValidate: true })
+			setValue('description', type.description, { shouldValidate: true })
 		} else {
 			setValue('name', "", { shouldValidate: true })
+			setValue('description', "", { shouldValidate: true })
 		}
-	}, [setValue, employee])
+	}, [setValue, type])
 
 	// Save data from modal.
 	const handleSubmitModalForm = (data) => {
-		if (employee) {
-			data.id = employee.id
-			dispatch(employeeStartUpdate(data))
+		if (type) {
+			data.id = type.id
+			dispatch(typeStartUpdate(data))
 		} else {
-			dispatch(employeeStartCreate(data))
+			dispatch(typeStartCreate(data))
 		}
-		dispatch(uiCloseEmployeeModal())
+		dispatch(uiCloseTypeModal())
 	}
 
 	return (
 		<div>
-			<Modal open={open} setOpen={() => dispatch(uiCloseEmployeeModal())} >
+			<Modal open={open} setOpen={() => dispatch(uiCloseTypeModal())} >
 				<form onSubmit={handleSubmit(handleSubmitModalForm)}>
 					{/* Modal Header */}
 					<div className="bg-gray-50 px-4 py-3 sm:px-6 ">
-						<h3 className="text-2xl">Añadir nuevo Empleado</h3>
+						<h3 className="text-2xl">Añadir nuevo Tipo</h3>
 					</div>
 
 					{/* Modal Body */}
@@ -63,6 +65,20 @@ export const EmployeeModalForm = () => {
 								</TextField>
 								{errors.name && <span className="text-red-500 text-sm">Este campo es requerido</span>}
 							</div>
+							<div className="mb-5">
+								<label className="mb-2 block text-md text-gray-600">Descripcion</label>
+								<TextField
+									type="text"
+									placeholder="Descripcion"
+									name="description"
+									register={register}
+									required
+									error={errors.description}
+								>
+									<AnnotationIcon className="h-5 self-center pl-2" />
+								</TextField>
+								{errors.description && <span className="text-red-500 text-sm">Este campo es requerido</span>}
+							</div>
 						</div>
 					</div>
 
@@ -71,7 +87,7 @@ export const EmployeeModalForm = () => {
 						<button
 							type="button"
 							className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-							onClick={() => dispatch(uiCloseEmployeeModal())}
+							onClick={() => dispatch(uiCloseTypeModal())}
 						>
 							Cancel
 						</button>

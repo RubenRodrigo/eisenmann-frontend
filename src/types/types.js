@@ -41,9 +41,21 @@ export const types = {
 	// TYPES AND UNITS
 	typeSetData: '[type] Set types',
 	typeClearData: '[type] Clear types',
+	typeAddNew: '[type] Add new type',
+	typeDeleted: '[type] Delete type',
+	typeUpdated: '[type] Update type',
+
+	typeSetActive: '[type] Set active type',
+	typeClearActive: '[type] Clear active type',
 
 	unitSetData: '[unit] Set units',
 	unitClearData: '[unit] Clear units',
+	unitAddNew: '[unit] Add new unit',
+	unitDeleted: '[unit] Delete unit',
+	unitUpdated: '[unit] Update unit',
+
+	unitSetActive: '[unit] Set active unit',
+	unitClearActive: '[unit] Clear active unit',
 
 	// CLIENTS
 	clientSetData: '[client] Set clients',
@@ -77,6 +89,12 @@ export const types = {
 
 	uiOpenEmployeeModal: '[UI] Open Employee Modal',
 	uiCloseEmployeeModal: '[UI] Close Employee Modal',
+
+	uiOpenTypeModal: '[UI] Open Type Modal',
+	uiCloseTypeModal: '[UI] Close Type Modal',
+
+	uiOpenUnitModal: '[UI] Open Unit Modal',
+	uiCloseUnitModal: '[UI] Close Unit Modal',
 
 	// FILTERS
 	productStockFilterByValue: '[productStock] Filter by value',

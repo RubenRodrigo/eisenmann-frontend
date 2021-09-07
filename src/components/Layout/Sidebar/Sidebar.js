@@ -113,6 +113,30 @@ export const Sidebar = () => {
 							</a>
 						</Link>
 					</div>
+					<div className="link-container transition duration-200">
+						<Link href="/type">
+							<a>
+								<div className="flex p-3">
+									<UserGroupIcon className="h-7 w-7" />
+									<h3 className="pl-3">
+										Tipos
+									</h3>
+								</div>
+							</a>
+						</Link>
+					</div>
+					<div className="link-container transition duration-200">
+						<Link href="/unit">
+							<a>
+								<div className="flex p-3">
+									<UserGroupIcon className="h-7 w-7" />
+									<h3 className="pl-3">
+										Unidades
+									</h3>
+								</div>
+							</a>
+						</Link>
+					</div>
 				</div>
 			</aside>
 			<style jsx>

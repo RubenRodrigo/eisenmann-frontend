@@ -20,8 +20,8 @@ export const TableServiceProducts = () => {
 	const initialState = {
 		product: 0,
 		employee: 0,
-		description: 'Pintura roja para la puerta',
-		quantity: '2',
+		description: 'Descripcion',
+		quantity: '0',
 	}
 
 	const [open, setOpen] = useState(false)

@@ -41,9 +41,9 @@ const NewProduct = ({ types, units }) => {
 	const initialValues = {
 		type: 1,
 		unit: 1,
-		code: '16156',
-		name: 'Soldadura 6011',
-		description: 'Se usa para soldaduras libianas de metal',
+		code: '',
+		name: '',
+		description: '',
 	}
 
 	const handleSubmitForm = (data) => {

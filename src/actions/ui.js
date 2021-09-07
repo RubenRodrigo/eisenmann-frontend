@@ -39,3 +39,23 @@ export const uiCloseEmployeeModal = () => {
 		type: types.uiCloseEmployeeModal,
 	}
 }
+
+export const uiOpenTypeModal = () => ({
+	type: types.uiOpenTypeModal,
+})
+
+export const uiCloseTypeModal = () => {
+	return {
+		type: types.uiCloseTypeModal,
+	}
+}
+
+export const uiOpenUnitModal = () => ({
+	type: types.uiOpenUnitModal,
+})
+
+export const uiCloseUnitModal = () => {
+	return {
+		type: types.uiCloseUnitModal,
+	}
+}

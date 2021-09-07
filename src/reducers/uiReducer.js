@@ -68,3 +68,37 @@ export const uiEmployeeModalReducer = (state = { open: false }, action) => {
 			return state;
 	}
 }
+
+export const uiTypeModalReducer = (state = { open: false }, action) => {
+	switch (action.type) {
+		case types.uiOpenTypeModal:
+			return {
+				...state,
+				open: true
+			}
+		case types.uiCloseTypeModal:
+			return {
+				...state,
+				open: false
+			}
+		default:
+			return state;
+	}
+}
+
+export const uiUnitModalReducer = (state = { open: false }, action) => {
+	switch (action.type) {
+		case types.uiOpenUnitModal:
+			return {
+				...state,
+				open: true
+			}
+		case types.uiCloseUnitModal:
+			return {
+				...state,
+				open: false
+			}
+		default:
+			return state;
+	}
+}

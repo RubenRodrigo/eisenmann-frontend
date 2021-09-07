@@ -23,8 +23,8 @@ export const ClientModalForm = () => {
 			setValue('name', client.name, { shouldValidate: true })
 			setValue('identifier', client.identifier, { shouldValidate: true })
 		} else {
-			setValue('name', "Ruben Rodrigo", { shouldValidate: true })
-			setValue('identifier', "730601316", { shouldValidate: true })
+			setValue('name', "", { shouldValidate: true })
+			setValue('identifier', "", { shouldValidate: true })
 		}
 	}, [setValue, client])
 

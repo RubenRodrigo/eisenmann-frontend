@@ -65,9 +65,9 @@ const NewService = ({ errorCode, clients }) => {
 	const initialValues = {
 		name: 'Nombre',
 		client: '0',
-		code: '516156',
-		estimated_price: '152',
-		observations: 'ff',
+		code: '0',
+		estimated_price: '0',
+		observations: '',
 		state: false,
 	}
 
